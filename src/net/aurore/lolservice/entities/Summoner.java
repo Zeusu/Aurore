@@ -1,7 +1,14 @@
 package net.aurore.lolservice.entities;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Summoner {
 
+	@Id
+	private long id;
+	
 	private int profileIconId;
 	
 	private String name;
@@ -10,10 +17,27 @@ public class Summoner {
 	
 	private long revisionDate;
 	
-	private long id;
-	
 	private long accountId;
 
+	
+	
+	public Summoner(){
+		super();
+	}
+	
+	public Summoner(int profileIconId, String name, long summonerLevel, long revisionDate, long id, long accountId) {
+		super();
+		this.profileIconId = profileIconId;
+		this.name = name;
+		this.summonerLevel = summonerLevel;
+		this.revisionDate = revisionDate;
+		this.id = id;
+		this.accountId = accountId;
+	}
+
+	
+	
+	
 	public int getProfileIconId() {
 		return profileIconId;
 	}

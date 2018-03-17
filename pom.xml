@@ -42,7 +42,7 @@
  		   <artifactId>hibernate-core</artifactId>
    		 <version>5.2.14.Final</version>
 		</dependency>
-        
+		
         <dependency>
  		   <groupId>org.slf4j</groupId>
   		  <artifactId>slf4j-simple</artifactId>

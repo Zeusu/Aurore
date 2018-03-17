@@ -8,6 +8,7 @@ import com.neovisionaries.ws.client.WebSocketFactory;
 
 import net.aurore.command.CommandManager;
 import net.aurore.command.CommandManagerBuilder;
+import net.aurore.datamanager.DataManager;
 import net.aurore.event.EventManager;
 import net.aurore.event.EventManagerBuilder;
 import net.aurore.lolservice.AuroreLoLService;
@@ -34,6 +35,8 @@ public class AuroreNode extends JDAImpl{
 	
 	private AuroreLoLService LoLService;
 	
+	private DataManager dm;
+	
 	static{
 		totalNodes = 0;
 	}
@@ -48,7 +51,8 @@ public class AuroreNode extends JDAImpl{
 		totalNodes +=1;
 	}
 	
-	public void init(){
+	public void init(DataManager dm){
+		this.dm = dm;
 		for(Guild guild : getGuilds()){
 			commandManagers.put(guild.getId(), new CommandManagerBuilder().build(this));
 			eventManagers.put(guild.getId(), new EventManagerBuilder().build(this));
@@ -78,5 +82,9 @@ public class AuroreNode extends JDAImpl{
 	
 	public String getSelfId(){
 		return selfUser.getId();
+	}
+	
+	public DataManager getDataManager(){
+		return this.dm;
 	}
 }

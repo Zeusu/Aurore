@@ -6,6 +6,10 @@ public class Rank {
 
 	@JsonIgnore
 	public static final String RANKED_SOLO = "RANKED_SOLO_5x5";
+
+	
+	@JsonIgnore
+	private long summonerId;
 	
 	
 	private String rank = "";
@@ -159,4 +163,11 @@ public class Rank {
 		this.miniSeries = miniSeries;
 	}
 	
+	public void setSummonerId(long id){
+		summonerId = id;
+	}
+	
+	public long getSummonerId(){
+		return summonerId;
+	}
 }

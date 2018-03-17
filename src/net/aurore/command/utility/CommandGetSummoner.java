@@ -29,8 +29,15 @@ public class CommandGetSummoner extends AbstractCommandImpl{
 				summonerName.append(' ');
 			}
 		}
-		Summoner s = getCommandManager().getLoLService().summonerByName(summonerName.toString());
+		
+		//Summoner s = getCommandManager().getLoLService().summonerByName(summonerName.toString());
+		Summoner s = getCommandManager().getDM().retrieveSummonerByName(summonerName.toString());
+		if(s == null){
+			s = getCommandManager().getLoLService().summonerByName(summonerName.toString());
+			getCommandManager().getDM().saveSummoner(s);
+		}
 		Rank sRank = getCommandManager().getLoLService().rankBySummonerId(s.getId());
+		//getCommandManager().getDM().saveRank(sRank);
 		
 		TitleTextList l = new TitleTextList();
 		l.addNode("Summoner Name", s.getName());

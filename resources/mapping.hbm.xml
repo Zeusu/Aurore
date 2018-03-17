@@ -3,19 +3,93 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping >
-    <class name="net.aurore.lolservice.Summoner" table="product" >
-        <id name="productId" type="java.lang.Integer">
+    <class name="net.aurore.lolservice.entities.Summoner" table="summoner" >
+        <id name="id" type="long">
             <column name="id"/>
-            <generator class="identity"/>
+            <generator class="assigned"/>
         </id>
-        <property name="productCode" type="string">
-            <column name="code" length="10" not-null="true"/>
+        <property name="accountId" type="long">
+        	<column name="accountId"/>
         </property>
-        <property name="productName" type="string">
-            <column name="name" length="20" not-null="true"/>
+        <property name="revisionDate" type="long">
+        	<column name="revisionDate"/>
         </property>
-    <property name="productPrice" type="java.math.BigDecimal">
-            <column name="price" length="20" not-null="true"/>
-      </property>
+        <property name="profileIconId" type="int">
+        	<column name="profileIconId"/>
+        </property>
+        <property name="summonerLevel" type="long">
+        	<column name="summonerLevel"/>
+        </property>
+        <property name="name" type="string">
+        	<column name="name" length="16"/>
+        </property>
     </class>
+    
+    <class name="net.aurore.lolservice.entities.MiniSeries" table="miniseries">
+		<id name="id" type="long">
+			<column name="id"/>
+			<generator class="native"/>
+		</id>
+		<property name="target" type="int">
+			<column name="target" />
+		</property>
+		<property name="wins" type="int">
+			<column name="wins"/>
+		</property>
+		<property name="losses" type="int">
+			<column name="losses"/>
+		</property>
+		<property name="progress" type="string">
+			<column name="progress" length="10"/>
+		</property>
+    </class>
+    
+    
+    <class name="net.aurore.lolservice.entities.Rank" table="rank">
+		<id name="playerOrTeamId" type="string">
+			<column name="playerOrTeamId"/>
+			<generator class="assigned"/>
+		</id>    
+    	<property name="summonerId" type="long">
+    		<column name="summonerId"/>
+    	</property>
+    	<property name="rank" type="string">
+    		<column name="rank" length="5"/>
+    	</property>
+    	<property name="queueType" type="string">
+    		<column name="queueType" length="25"/>
+    	</property>
+    	<property name="hotStreak" type="boolean">
+    		<column name="hotStreak"/>
+    	</property>
+    	<property name="wins" type="int">
+    		<column name="wins"/>
+    	</property>
+    	<property name="losses" type="int">
+    		<column name="losses"/>
+    	</property>
+    	<property name="veteran" type="boolean">
+    		<column name="veteran"/>
+    	</property>
+    	<property name="freshBlood" type="boolean">
+    		<column name="freshBlood"/>
+    	</property>
+    	<property name="leagueId" type="string">
+    		<column name="leagueId" length="20"/>
+    	</property>
+    	<property name="playerOrTeamName" type="string">
+    		<column name="playerOrTeamName" length="30"/>
+    	</property>
+    	<property name="leagueName" type="string">
+    		<column name="leagueName" length="30"/>
+    	</property>
+    	<property name="tier" type="string">
+    		<column name="tier" length="20"/>
+    	</property>
+    	<property name="leaguePoints" type="int">
+    		<column name="leaguePoints"/>
+    	</property>
+    	<one-to-one name="miniSeries" class="net.aurore.lolservice.entities.MiniSeries"></one-to-one>
+    </class>
+    
 </hibernate-mapping>

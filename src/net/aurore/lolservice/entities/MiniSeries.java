@@ -1,6 +1,11 @@
 package net.aurore.lolservice.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class MiniSeries {
+	
+	@JsonIgnore
+	private long id;
 
 	private int target = 0;
 	
@@ -40,6 +45,14 @@ public class MiniSeries {
 
 	public void setProgress(String progress) {
 		this.progress = progress;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
 	}
 	
 }

@@ -9,6 +9,7 @@ import java.util.Set;
 import org.reflections.Reflections;
 
 import net.aurore.core.node.AuroreNode;
+import net.aurore.datamanager.DataManager;
 import net.aurore.lolservice.AuroreLoLService;
 import net.aurore.util.TitleTextList;
 
@@ -51,6 +52,7 @@ public class CommandManagerImpl implements CommandManager {
 				commands.get(identifier).onInvoke(context, context.getMsg().getContentRaw().split(" "), context.getMsg().getMentionedMembers());
 			}catch(Exception e){
 				System.err.println("Command internal error");
+				e.printStackTrace();
 			}
 		}
 
@@ -75,6 +77,10 @@ public class CommandManagerImpl implements CommandManager {
 	
 	public AuroreLoLService getLoLService(){
 		return node.getLoLService();
+	}
+	
+	public DataManager getDM(){
+		return node.getDataManager();
 	}
 	
 	public String getSelfId(){

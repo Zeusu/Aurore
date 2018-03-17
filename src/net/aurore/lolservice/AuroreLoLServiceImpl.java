@@ -46,8 +46,12 @@ public class AuroreLoLServiceImpl implements AuroreLoLService {
 		try{
 			String response = REST_SERVICE.doRequest(RANK_BY_SUMMONER_ID_URL + summonerId);
 			Rank[] ranks = MAPPER.readValue(response, Rank[].class);
-			for(Rank r : ranks) if(r.getQueueType().equals(Rank.RANKED_SOLO)) return r;
-			return null;
+			Rank result = null;
+			for(Rank r : ranks) if(r.getQueueType().equals(Rank.RANKED_SOLO)){
+				result = r;
+				result.setSummonerId(summonerId);
+			}
+			return result;
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
