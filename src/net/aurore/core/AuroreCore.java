@@ -17,7 +17,7 @@ public class AuroreCore{
 		
 	private static final Game GAME = Game.streaming(Config.PREFIX + "help for commands", "https://twitch.tv/chaine%27");
 	
-	private static final String TOKEN = "NDEzMDk0NTU5MDQ4OTI1MTg0.DWW-4g.OqbSWuzT__crGtccTTX-P-s9iDg";
+	private static final String TOKEN = "";
 	
 	private AuroreNode node;
 
