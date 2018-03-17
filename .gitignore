@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 /build/
 /target/
+/.settings/
 =======
 # Compiled class file
 *.class
@@ -25,5 +26,4 @@
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 >>>>>>> branch 'master' of https://github.com/Zeusu/Aurore.git
-/target/
-/.settings/
+
