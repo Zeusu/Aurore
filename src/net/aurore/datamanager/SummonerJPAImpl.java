@@ -2,8 +2,8 @@ package net.aurore.datamanager;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 import net.aurore.lolservice.entities.Summoner;
 
@@ -47,7 +47,7 @@ public class SummonerJPAImpl implements SummonerJPA {
 
 	@Override
 	public void update() {
-		Query<?> query = sess.createQuery(HQL_FULL_UPDATE_BY_ID);
+		Query query = sess.createQuery(HQL_FULL_UPDATE_BY_ID);
 		query.setParameter(HQL_PARAM_ID, sum.getId());
 		query.setParameter(HQL_PARAM_ACCOUNT_ID, sum.getAccountId());
 		query.setParameter(HQL_PARAM_REVISION_DATE, sum.getRevisionDate());
@@ -60,7 +60,7 @@ public class SummonerJPAImpl implements SummonerJPA {
 
 	@Override
 	public Summoner retrieveById(long id) {
-		Query<?> query = sess.createQuery(HQL_SELECT_BY_ID);
+		Query query = sess.createQuery(HQL_SELECT_BY_ID);
 		query.setParameter(HQL_PARAM_ID, id);
 		List<Summoner> l = (List<Summoner>) query.list();
 		if(l.size() == 0) return null;
@@ -70,7 +70,7 @@ public class SummonerJPAImpl implements SummonerJPA {
 
 	@Override
 	public Summoner retrieveByName(String name) {
-		Query<?> query = sess.createQuery(HQL_SELECT_BY_NAME);
+		Query query = sess.createQuery(HQL_SELECT_BY_NAME);
 		query.setParameter(HQL_PARAM_NAME, name);
 		List<Summoner> l = (List<Summoner>) query.list();
 		if(l.size() == 0) return null;

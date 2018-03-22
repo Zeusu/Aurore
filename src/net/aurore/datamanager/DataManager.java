@@ -1,5 +1,6 @@
 package net.aurore.datamanager;
 
+import net.aurore.entities.AuroreMatch;
 import net.aurore.lolservice.entities.Rank;
 import net.aurore.lolservice.entities.Summoner;
 
@@ -13,7 +14,7 @@ public interface DataManager {
 	
 	public Summoner retrieveSummonerByName(String name);
 	
-	
-	
 	public void saveRank(Rank r);
+	
+	public void saveAuroreMatch(AuroreMatch match);
 }

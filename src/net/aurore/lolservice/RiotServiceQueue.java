@@ -42,7 +42,6 @@ public class RiotServiceQueue {
 		
 		
 		addToQueue(q,now);
-		System.out.println(q.size());
 		if(now > q.getFirst() + interval){
 			clearQueue(q,now, interval);
 		}

@@ -1,45 +1,67 @@
 package net.aurore.lolservice.entities;
 
+import javax.persistence.*;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+
+@Entity
+@Table(name = "rank")
 public class Rank {
 
 	@JsonIgnore
 	public static final String RANKED_SOLO = "RANKED_SOLO_5x5";
 
 	
-	@JsonIgnore
+	
+	
+	@JsonIgnore @Column(name = "summonerId")
 	private long summonerId;
 	
-	
-	private String rank = "";
-	
-	private String queueType = "";
-	
-	private boolean hotStreak = false;
-	
-	private int wins = 0;
-	
-	private int losses = 0;
-	
-	private boolean veteran = false;
-	
-	private boolean freshBlood = false;
-	
-	private String leagueId = "";
-	
-	private String playerOrTeamName = "";
-	
-	private boolean inactive = false;
-	
+	@Column(name = "playerOrTeamId") @Id
 	private String playerOrTeamId = "";
 	
+	@Column(name = "rank")
+	private String rank = "";
+	
+	@Column(name = "queueType")
+	private String queueType = "";
+	
+	@Column(name = "hotStreak")
+	private boolean hotStreak = false;
+	
+	@Column(name = "wins")
+	private int wins = 0;
+	
+	@Column(name = "losses")
+	private int losses = 0;
+	
+	@Column(name = "veteran")
+	private boolean veteran = false;
+	
+	@Column(name = "freshBlood")
+	private boolean freshBlood = false;
+	
+	@Column(name = "leagueId")
+	private String leagueId = "";
+	
+	@Column(name = "playerOrTeamName")
+	private String playerOrTeamName = "";
+	
+	@Column(name = "inactive")
+	private boolean inactive = false;
+	
+	@Column(name = "leagueName")
 	private String leagueName = "";
 	
+	@Column(name = "tier")
 	private String tier = "";
 	
+	@Column(name = "leaguePoints")
 	private int leaguePoints = 0;
 
+	@OneToOne
+	@JoinColumn(name = "miniSeries")
 	private MiniSeries miniSeries = null;
 	
 	

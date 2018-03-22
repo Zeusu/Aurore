@@ -1,22 +1,29 @@
 package net.aurore.lolservice.entities;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
+
 
 @Entity
+@Table(name = "summoner")
 public class Summoner {
 
 	@Id
+	@Column(name = "id")
 	private long id;
 	
+	@Column(name = "profileIconId")
 	private int profileIconId;
 	
+	@Column(name = "name")
 	private String name;
 	
+	@Column(name = "summonerLevel")
 	private long summonerLevel;
 	
+	@Column(name = "revisionDate")
 	private long revisionDate;
 	
+	@Column(name = "accountId")
 	private long accountId;
 
 	

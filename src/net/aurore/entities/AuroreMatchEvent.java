@@ -1,35 +1,125 @@
-package net.aurore.lolservice.entities;
+package net.aurore.entities;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.math.BigInteger;
 
+import javax.persistence.*;
 
-public class MatchEvent {
+import net.aurore.lolservice.entities.MatchEvent;
 
+@Entity
+@Table(name = "matcheventframe")
+@IdClass(AuroreMatchEventKey.class)
+public class AuroreMatchEvent {
+
+	@Id
+	@Column(name = "matchId")
+	private BigInteger matchId;
+	
+	@Id
+	@Column(name = "frameId") 
+	private BigInteger frameId;
+	
+	@Id
+	@Column(name = "eventId")
+	private BigInteger eventId;
+	
+	
+	
+	@Column(name = "eventType")
 	private String eventType;
+	
+	@Column(name = "towerType")
 	private String towerType;
+	
+	@Column(name = "teamId")
 	private int teamId;
+	
+	@Column(name = "ascendedType")
 	private String ascendedType;
+	
+	@Column(name = "killerId")
 	private int killerId;
+	
+	@Column(name = "levelUpType")
 	private String levelUpType;
+	
+	@Column(name = "pointCaptured")
 	private String pointCaptured;
-	private List<Integer> assistingParticipantIds = new ArrayList<Integer>();
+	
+	@Column(name = "wardType")
 	private String wardType;
+	
+	@Column(name = "monsterType")
 	private String monsterType;
+	
+	@Column(name = "type")
 	private String type;
+	
+	@Column(name = "skillSlot")
 	private int skillSlot;
+	
+	@Column(name = "victimId")
 	private int victimId;
+	
+	@Column(name = "timestamp")
 	private long timestamp;
+	
+	@Column(name = "afterId")
 	private int afterId;
+	
+	@Column(name = "monsterSubType")
 	private String monsterSubType;
+	
+	@Column(name = "laneType")
 	private String laneType;
+	
+	@Column(name = "itemId")
 	private int itemId;
+	
+	@Column(name = "participantId")
 	private int participantId;
+	
+	@Column(name = "buildingType")
 	private String buildingType;
+	
+	@Column(name = "creatorId")
 	private int creatorId;
-	private MatchPosition position;
+	
+	@Column(name = "beforeId")
 	private int beforeId;
 	
+	public AuroreMatchEvent(){}
+	
+	public AuroreMatchEvent(MatchEvent event){
+		eventType = event.getEventType();
+		towerType = event.getTowerType();
+		teamId = event.getTeamId();
+		ascendedType = event.getAscendedType();
+		killerId = event.getKillerId();
+		levelUpType = event.getLevelUpType();
+		pointCaptured = event.getPointCaptured();
+		wardType = event.getWardType();
+		monsterType = event.getMonsterType();
+		type = event.getType();
+		skillSlot = event.getSkillSlot();
+		victimId = event.getVictimId();
+		timestamp = event.getTimestamp();
+		afterId = event.getAfterId();
+		monsterSubType = event.getMonsterSubType();
+		laneType = event.getLaneType();
+		itemId = event.getItemId();
+		participantId = event.getParticipantId();
+		buildingType = event.getBuildingType();
+		creatorId = event.getCreatorId();
+		beforeId = event.getBeforeId();
+	}
+	
+	public AuroreMatchEvent(MatchEvent event, BigInteger matchId, BigInteger frameId, BigInteger eventId){
+		this(event);
+		this.matchId = matchId;
+		this.frameId = frameId;
+		this.eventId = eventId;
+	}
 	
 	public String getEventType() {
 		return eventType;
@@ -60,12 +150,6 @@ public class MatchEvent {
 	}
 	public void setLevelUpType(String levelUpType) {
 		this.levelUpType = levelUpType;
-	}
-	public List<Integer> getAssistingParticipantIds() {
-		return assistingParticipantIds;
-	}
-	public void setAssistingParticipantIds(List<Integer> assistingParticipantIds) {
-		this.assistingParticipantIds = assistingParticipantIds;
 	}
 	public String getPointCaptured() {
 		return pointCaptured;
@@ -151,12 +235,6 @@ public class MatchEvent {
 	public void setCreatorId(int creatorId) {
 		this.creatorId = creatorId;
 	}
-	public MatchPosition getPosition() {
-		return position;
-	}
-	public void setPosition(MatchPosition position) {
-		this.position = position;
-	}
 	public int getBeforeId() {
 		return beforeId;
 	}
@@ -168,6 +246,24 @@ public class MatchEvent {
 	}
 	public void setKillerId(int killerId) {
 		this.killerId = killerId;
+	}
+	public BigInteger getMatchId() {
+		return matchId;
+	}
+	public void setMatchId(BigInteger matchId) {
+		this.matchId = matchId;
+	}
+	public BigInteger getFrameId() {
+		return frameId;
+	}
+	public void setFrameId(BigInteger frameId) {
+		this.frameId = frameId;
+	}
+	public BigInteger getEventId() {
+		return eventId;
+	}
+	public void setEventId(BigInteger eventId) {
+		this.eventId = eventId;
 	}
 	
 }

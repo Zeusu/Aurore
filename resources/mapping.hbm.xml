@@ -3,6 +3,7 @@
 "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping >
+
     <class name="net.aurore.lolservice.entities.Summoner" table="summoner" >
         <id name="id" type="long">
             <column name="id"/>

@@ -19,7 +19,7 @@ public class RestService {
 	private static final String CHARSET_KEY = "Accept-Charset";
 	private static final String CHARSET_VALUE = "application/x-www-form-urlencoded; charset=UTF-8";
 	private static final String TOKEN_KEY = "X-Riot-Token";
-	private static final String TOKEN_VALUE = "RGAPI-2c35bf12-f1d8-46c1-97af-839c94e2eada";
+	private static final String TOKEN_VALUE = "RGAPI-30b5e4e4-eeb5-4c0f-bba3-36f518090d14";
 	private static final String LANGUAGE_KEY = "Accept-Language";
 	private static final String LANGUAGE_VALUE = "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3";
 	private static final String USERAGENT_KEY = "User-Agent";
@@ -31,7 +31,6 @@ public class RestService {
 		
 		long toWait = QUEUE.queue();
 		
-		System.out.println(toWait);
 		Thread.sleep(toWait);
 		
 		URL obj = new URL(url);

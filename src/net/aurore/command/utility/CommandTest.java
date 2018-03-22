@@ -8,6 +8,7 @@ import net.aurore.command.Command;
 import net.aurore.command.CommandCat;
 import net.aurore.command.CommandContext;
 import net.aurore.command.CommandManagerImpl;
+import net.aurore.entities.AuroreMatch;
 import net.aurore.lolservice.entities.Match;
 import net.dv8tion.jda.core.entities.Member;
 
@@ -28,7 +29,7 @@ public class CommandTest extends AbstractCommandImpl {
 		}*/
 		Match m = this.getCommandManager().getLoLService().matchByMatchId(TEST_MATCH);
 		if(m != null){
-			this.send(context.getChannel(), "Success");
+			getCommandManager().getDM().saveAuroreMatch(new AuroreMatch(m));
 		}
 		
 	}

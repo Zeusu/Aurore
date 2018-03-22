@@ -11,9 +11,8 @@ public class Match {
 	@JsonIgnore
 	private BigInteger matchId;
 	
-	
-	
 	private List<MatchFrame> frames = new ArrayList<MatchFrame>();
+	
 	private long frameInterval;
 	
 	public List<MatchFrame> getFrames() {

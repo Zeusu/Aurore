@@ -2,6 +2,7 @@ package net.aurore.datamanager;
 
 import org.hibernate.Session;
 
+import net.aurore.entities.AuroreMatch;
 import net.aurore.lolservice.entities.Rank;
 import net.aurore.lolservice.entities.Summoner;
 
@@ -37,6 +38,11 @@ public class DataManagerImpl implements DataManager {
 	@Override
 	public void saveRank(Rank r) {
 		new RankJPAImpl(r,session).save();
+	}
+
+	@Override
+	public void saveAuroreMatch(AuroreMatch match) {
+		new AuroreMatchJPAImpl(match,session).save();
 	}
 	
 }

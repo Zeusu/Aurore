@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 public class MatchFrame {
-
+	
 	private long timestamp;
+	
 	private Map<Integer,MatchParticipantFrame> participantFrames = new HashMap<Integer,MatchParticipantFrame>();
+	
 	private List<MatchEvent> events = new ArrayList<MatchEvent>();
 	
 	
