@@ -19,7 +19,7 @@ public class AuroreCore{
 		
 	private static final Game GAME = Game.playing(Config.PREFIX + "help for commands");
 	
-	private static final String TOKEN = " ";
+	private static final String TOKEN = "  ";
 	
 	private AuroreNode node;
 
