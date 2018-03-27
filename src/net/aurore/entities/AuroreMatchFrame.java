@@ -14,54 +14,41 @@ import net.aurore.lolservice.entities.MatchParticipantFrame;
 
 @Entity
 @Table(name = "matchframe")
-@IdClass(AuroreMatchFrameKey.class)
 public class AuroreMatchFrame{
 
 	public AuroreMatchFrame(){}
 	
-	public AuroreMatchFrame(MatchFrame frame){
+	public AuroreMatchFrame(MatchFrame frame, AuroreMatch m){
 		this();
+		match = m;
 		timestamp = frame.getTimestamp();
 		
-		int size = frame.getParticipantFrames().size();
-		for(int i = 1; i < size ; i++){
-			participantFrames.add(null);
-		}
 		for(Entry<Integer,MatchParticipantFrame> e : frame.getParticipantFrames().entrySet()){
-			AuroreMatchParticipantFrame p = new AuroreMatchParticipantFrame(e.getValue(),getMatchId(), getFrameId());
-			participantFrames.add(e.getKey(), p);
+			AuroreMatchParticipantFrame p = new AuroreMatchParticipantFrame(e.getValue(),this);
+			participantFrames.add(p);
 		}
-		long id = 0;
 		for(MatchEvent e : frame.getEvents()){
-			AuroreMatchEvent event = new AuroreMatchEvent(e,getMatchId(),getFrameId(),BigInteger.valueOf(id));
+			AuroreMatchEvent event = new AuroreMatchEvent(e,this);
 			events.add(event);
-			id += 1;
 		}
 	}
 	
 	@Id
-	@Column(name = "matchId")
-	private BigInteger matchId;
-	
-	@Id
-	@Column(name = "frameId")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "frameId", nullable = false, unique = true)
 	private BigInteger frameId;
 	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "matchId")
+	private AuroreMatch match;
+
 	@Column(name = "timestamp")
 	private long timestamp;
 		
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumns({
-		@JoinColumn(name = "matchId"),
-		@JoinColumn(name = "frameId")
-	})
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "frame", fetch = FetchType.LAZY)
 	private List<AuroreMatchParticipantFrame> participantFrames = new ArrayList<AuroreMatchParticipantFrame>();
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumns({
-		@JoinColumn(name = "matchId"),
-		@JoinColumn(name = "frameId")
-	})
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "frame", fetch = FetchType.LAZY)
 	private List<AuroreMatchEvent> events = new ArrayList<AuroreMatchEvent>();
 	
 	
@@ -84,14 +71,6 @@ public class AuroreMatchFrame{
 		this.events = events;
 	}
 	
-	public BigInteger getMatchId() {
-		return matchId;
-	}
-
-	public void setMatchId(BigInteger matchId) {
-		this.matchId = matchId;
-	}
-
 	public BigInteger getFrameId() {
 		return frameId;
 	}
@@ -99,6 +78,15 @@ public class AuroreMatchFrame{
 	public void setFrameId(BigInteger frameId) {
 		this.frameId = frameId;
 	}
-	
+
+	public AuroreMatch getMatch() {
+		return match;
+	}
+
+	public void setMatch(AuroreMatch match) {
+		this.match = match;
+	}
+
+
 	
 }

@@ -21,6 +21,7 @@ public class RankJPAImpl implements RankJPA {
 		sess.beginTransaction();
 		sess.save(rank);
 		sess.getTransaction().commit();
+		sess.clear();
 	}
 
 }

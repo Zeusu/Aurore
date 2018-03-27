@@ -41,4 +41,19 @@ public abstract class AbstractCommandImpl implements CommandI{
 		return manager;
 	}
 	
+	protected String parseArguments(String args[], int startIdx){
+		if(startIdx < args.length){
+			StringBuffer buffer = new StringBuffer();
+			for(int i = startIdx; i < args.length; i++){
+				buffer.append(args[i]);
+				if(i != args.length - 1){
+					buffer.append(' ');
+				}
+			}
+			return buffer.toString();
+		}else{
+			return null;
+		}
+	}
+	
 }

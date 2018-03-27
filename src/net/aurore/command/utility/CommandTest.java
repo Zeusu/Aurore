@@ -8,8 +8,6 @@ import net.aurore.command.Command;
 import net.aurore.command.CommandCat;
 import net.aurore.command.CommandContext;
 import net.aurore.command.CommandManagerImpl;
-import net.aurore.entities.AuroreMatch;
-import net.aurore.lolservice.entities.Match;
 import net.dv8tion.jda.core.entities.Member;
 
 @Command("test")
@@ -27,10 +25,13 @@ public class CommandTest extends AbstractCommandImpl {
 		/*for(int i = 0; i < 200; i++){ 
 			this.getCommandManager().getLoLService().testRequest();
 		}*/
-		Match m = this.getCommandManager().getLoLService().matchByMatchId(TEST_MATCH);
+		/*Match m = this.getCommandManager().getLoLService().matchByMatchId(TEST_MATCH);
 		if(m != null){
 			getCommandManager().getDM().saveAuroreMatch(new AuroreMatch(m));
-		}
+		}*/
+		//System.out.println(getCommandManager().getDM().retrieveMatchList().get(0));
+		
+		getCommandManager().getLoLService().matchesByMatchId(TEST_MATCH);
 		
 	}
 

@@ -8,7 +8,7 @@ import net.dv8tion.jda.core.entities.MessageEmbed;
 
 public class EmbedFactory {
 	
-	private static final Color COLOR = Color.decode("#2F6AD0");
+	private static final Color COLOR = Color.decode("#550000");
 	
 	
 	

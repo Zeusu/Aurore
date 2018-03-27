@@ -22,18 +22,12 @@ public class CommandGetSummoner extends AbstractCommandImpl{
 
 	@Override
 	public void onInvoke(CommandContext context, String[] args, List<Member> mentioned) {
-		StringBuffer summonerName = new StringBuffer("");
-		for(int i = 1; i < args.length; i++){
-			summonerName.append(args[i]);
-			if(i != args.length - 1){
-				summonerName.append(' ');
-			}
-		}
+
+		String summonerName = parseArguments(args,1);
 		
-		//Summoner s = getCommandManager().getLoLService().summonerByName(summonerName.toString());
-		Summoner s = getCommandManager().getDM().retrieveSummonerByName(summonerName.toString());
+		Summoner s = getCommandManager().getDM().retrieveSummonerByName(summonerName);
 		if(s == null){
-			s = getCommandManager().getLoLService().summonerByName(summonerName.toString());
+			s = getCommandManager().getLoLService().summonerByName(summonerName);
 			getCommandManager().getDM().saveSummoner(s);
 		}
 		Rank sRank = getCommandManager().getLoLService().rankBySummonerId(s.getId());
@@ -42,7 +36,8 @@ public class CommandGetSummoner extends AbstractCommandImpl{
 		TitleTextList l = new TitleTextList();
 		l.addNode("Summoner Name", s.getName());
 		l.addNode("Summoner Level", "" + s.getSummonerLevel());
-		l.addNode("Summoner Rank", "" + sRank.getTier());
+		if(sRank != null)
+			l.addNode("Summoner Rank", "" + sRank.getTier());
 		this.sendEmbed(context.getChannel(), "Profile", l, "http://avatar.leagueoflegends.com/euw/" + Encoder.encode(s.getName()) + ".png");
 		
 	}

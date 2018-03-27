@@ -6,24 +6,22 @@ import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 
-import net.aurore.entities.AuroreMatch;
+import net.aurore.entities.AuroreMatchSummary;
 
-public class AuroreMatchJPAImpl implements AuroreMatchJPA{
+public class AuroreMatchSummaryJPAImpl implements AuroreMatchSummaryJPA {
 
 	private static final String HQL_PARAM_MATCH_ID = "matchId";
 	
 	
-	private static final String HQL_SELECT_LIST_MATCHES = "SELECT " + HQL_PARAM_MATCH_ID + " FROM AuroreMatch";
+	private static final String HQL_SELECT_LIST_MATCHES = "SELECT " + HQL_PARAM_MATCH_ID + " FROM AuroreMatchSummary";
 
-	
 	private Session sess;
-	private AuroreMatch match;
+	private AuroreMatchSummary match;
 	
-	AuroreMatchJPAImpl(AuroreMatch match, Session sess){
+	AuroreMatchSummaryJPAImpl(AuroreMatchSummary match, Session sess){
 		this.match = match;
 		this.sess = sess;
 	}
-	
 	@Override
 	public void save() {
 		sess.beginTransaction();

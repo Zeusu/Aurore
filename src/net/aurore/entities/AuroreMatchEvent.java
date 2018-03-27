@@ -8,22 +8,20 @@ import net.aurore.lolservice.entities.MatchEvent;
 
 @Entity
 @Table(name = "matcheventframe")
-@IdClass(AuroreMatchEventKey.class)
 public class AuroreMatchEvent {
 
-	@Id
-	@Column(name = "matchId")
-	private BigInteger matchId;
+	
+	
 	
 	@Id
-	@Column(name = "frameId") 
-	private BigInteger frameId;
-	
-	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "eventId")
 	private BigInteger eventId;
 	
 	
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "frameId")
+	private AuroreMatchFrame frame;
 	
 	@Column(name = "eventType")
 	private String eventType;
@@ -114,11 +112,9 @@ public class AuroreMatchEvent {
 		beforeId = event.getBeforeId();
 	}
 	
-	public AuroreMatchEvent(MatchEvent event, BigInteger matchId, BigInteger frameId, BigInteger eventId){
+	public AuroreMatchEvent(MatchEvent event, AuroreMatchFrame frame){
 		this(event);
-		this.matchId = matchId;
-		this.frameId = frameId;
-		this.eventId = eventId;
+		this.frame = frame;
 	}
 	
 	public String getEventType() {
@@ -247,18 +243,15 @@ public class AuroreMatchEvent {
 	public void setKillerId(int killerId) {
 		this.killerId = killerId;
 	}
-	public BigInteger getMatchId() {
-		return matchId;
+
+	public AuroreMatchFrame getFrame() {
+		return frame;
 	}
-	public void setMatchId(BigInteger matchId) {
-		this.matchId = matchId;
+
+	public void setFrame(AuroreMatchFrame frame) {
+		this.frame = frame;
 	}
-	public BigInteger getFrameId() {
-		return frameId;
-	}
-	public void setFrameId(BigInteger frameId) {
-		this.frameId = frameId;
-	}
+
 	public BigInteger getEventId() {
 		return eventId;
 	}

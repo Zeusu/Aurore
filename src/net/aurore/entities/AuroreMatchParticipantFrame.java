@@ -1,6 +1,5 @@
 package net.aurore.entities;
 
-import java.math.BigInteger;
 
 import javax.persistence.*;
 
@@ -8,17 +7,16 @@ import net.aurore.lolservice.entities.MatchParticipantFrame;
 
 @Entity
 @Table(name = "matchparticipantframe")
-@IdClass(AuroreMatchParticipantFrameKey.class)
 public class AuroreMatchParticipantFrame {
 	
-	@Id @Column(name = "matchId")
-	private BigInteger matchId; 
+	@Id 
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "auroreParticipantId", nullable = false, unique = true)
+	private int auroreParticipantId; 
 	
-	@Id @Column(name = "frameId")
-	private BigInteger frameId; 
-	
-	@Id @Column(name = "participantId")
-	private int participantId; 
+	@ManyToOne(optional = false)
+	@JoinColumn(name = "frameId")
+	private AuroreMatchFrame frame; 
 	
 	@Column(name = "totalGold")
 	private int totalGold;
@@ -44,6 +42,9 @@ public class AuroreMatchParticipantFrame {
 	@Column(name = "jungleMinionsKilled")
 	private int jungleMinionsKilled;
 	
+	@Column(name = "participantId")
+	private int participantId;
+	
 	
 	public AuroreMatchParticipantFrame(){}
 	
@@ -61,11 +62,30 @@ public class AuroreMatchParticipantFrame {
 		
 	}
 	
-	public AuroreMatchParticipantFrame(MatchParticipantFrame participant, BigInteger matchId, BigInteger frameId){
+	public AuroreMatchParticipantFrame(MatchParticipantFrame participant, AuroreMatchFrame frame){
 		this(participant);
-		this.matchId = matchId;
-		this.frameId = frameId;
+		this.frame = frame;
 	}
+	
+	public int getAuroreParticipantId() {
+		return auroreParticipantId;
+	}
+
+	public void setAuroreParticipantId(int auroreParticipantId) {
+		this.auroreParticipantId = auroreParticipantId;
+	}
+
+	public boolean equals(Object o){
+		if(o == null) return false;
+		
+		if(!(o instanceof AuroreMatchParticipantFrame)) return false;
+		
+		AuroreMatchParticipantFrame k = (AuroreMatchParticipantFrame) o;
+		return (frame.getMatch().getMatchId().equals(k.frame.getMatch().getMatchId())
+				&& frame.getFrameId().equals(k.frame.getFrameId())
+				&& participantId == k.getParticipantId());
+	}
+	
 	
 	
 	public int getTotalGold() {
@@ -122,17 +142,13 @@ public class AuroreMatchParticipantFrame {
 	public void setJungleMinionsKilled(int jungleMinionsKilled) {
 		this.jungleMinionsKilled = jungleMinionsKilled;
 	}
-	public BigInteger getMatchId() {
-		return matchId;
+
+	public AuroreMatchFrame getFrame() {
+		return frame;
 	}
-	public void setMatchId(BigInteger matchId) {
-		this.matchId = matchId;
-	}
-	public BigInteger getFrameId() {
-		return frameId;
-	}
-	public void setFrameId(BigInteger frameId) {
-		this.frameId = frameId;
+
+	public void setFrame(AuroreMatchFrame frame) {
+		this.frame = frame;
 	}
 
 }

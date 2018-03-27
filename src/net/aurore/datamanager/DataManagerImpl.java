@@ -1,8 +1,12 @@
 package net.aurore.datamanager;
 
+import java.math.BigInteger;
+import java.util.List;
+
 import org.hibernate.Session;
 
 import net.aurore.entities.AuroreMatch;
+import net.aurore.entities.AuroreMatchSummary;
 import net.aurore.lolservice.entities.Rank;
 import net.aurore.lolservice.entities.Summoner;
 
@@ -40,9 +44,17 @@ public class DataManagerImpl implements DataManager {
 		new RankJPAImpl(r,session).save();
 	}
 
-	@Override
 	public void saveAuroreMatch(AuroreMatch match) {
 		new AuroreMatchJPAImpl(match,session).save();
 	}
+
+	@Override
+	public List<BigInteger> retrieveMatchList() {
+		return new AuroreMatchSummaryJPAImpl(new AuroreMatchSummary(),session).retrieveMatchList();
+	}
 	
+	@Override
+	public void saveAuroreMatchSummary(AuroreMatchSummary match){
+		new AuroreMatchSummaryJPAImpl(match,session).save();
+	}
 }

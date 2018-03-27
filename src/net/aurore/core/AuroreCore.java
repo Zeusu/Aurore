@@ -17,7 +17,7 @@ import net.aurore.lolservice.AuroreLoLServiceImpl;
 @WebListener
 public class AuroreCore{
 		
-	private static final Game GAME = Game.streaming(Config.PREFIX + "help for commands", "https://twitch.tv/chaine%27");
+	private static final Game GAME = Game.playing(Config.PREFIX + "help for commands");
 	
 	private static final String TOKEN = "";
 	

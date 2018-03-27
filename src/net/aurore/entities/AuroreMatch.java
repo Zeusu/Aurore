@@ -13,12 +13,12 @@ import net.aurore.lolservice.entities.MatchFrame;
 @Table(name = "match")
 public class AuroreMatch {
 
-	@Column(name = "matchId") @Id
+	@Id
+	@Column(name = "matchId", nullable = false, unique = true)
 	private BigInteger matchId;
 	
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinColumn(name="matchId")
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "match", fetch = FetchType.LAZY)
 	private List<AuroreMatchFrame> frames = new ArrayList<AuroreMatchFrame>();
 	
 	
@@ -31,13 +31,9 @@ public class AuroreMatch {
 	public AuroreMatch(Match m){
 		matchId = m.getMatchId();
 		frameInterval = m.getFrameInterval();
-		long i = 0;
 		for(MatchFrame f : m.getFrames()){
-			AuroreMatchFrame frame = new AuroreMatchFrame(f);
-			frame.setFrameId(BigInteger.valueOf(i));
-			frame.setMatchId(matchId);
+			AuroreMatchFrame frame = new AuroreMatchFrame(f,this);
 			frames.add(frame);
-			i += 1;
 		}
 	}
 	

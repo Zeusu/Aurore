@@ -1,6 +1,7 @@
 package net.aurore.lolservice;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -19,7 +20,7 @@ public class RestService {
 	private static final String CHARSET_KEY = "Accept-Charset";
 	private static final String CHARSET_VALUE = "application/x-www-form-urlencoded; charset=UTF-8";
 	private static final String TOKEN_KEY = "X-Riot-Token";
-	private static final String TOKEN_VALUE = "RGAPI-30b5e4e4-eeb5-4c0f-bba3-36f518090d14";
+	private static final String TOKEN_VALUE = "RGAPI-46a00620-7162-480b-867e-701dcded29e5";
 	private static final String LANGUAGE_KEY = "Accept-Language";
 	private static final String LANGUAGE_VALUE = "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3";
 	private static final String USERAGENT_KEY = "User-Agent";
@@ -27,40 +28,54 @@ public class RestService {
 	
 	private static final RiotServiceQueue QUEUE = new RiotServiceQueue(SECOUND, MAX_REQUEST_PER_SECOUND, TWO_MINUTES, MAX_REQUEST_EVERY_TWO_MINUTES);
 	
-	synchronized public String doRequest(String url) throws Exception{
+	synchronized public RestServiceResponse doRequest(String url) throws RestServiceException, IOException{
 		
 		long toWait = QUEUE.queue();
 		
-		Thread.sleep(toWait);
-		
+		try {
+			Thread.sleep(toWait);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 		URL obj = new URL(url);
 		HttpURLConnection conec = (HttpURLConnection) obj.openConnection();
-		
+			
 		conec.setRequestMethod("GET");
-		
+			
 		conec.setRequestProperty(ORIGIN_KEY, ORIGIN_VALUE);
 		conec.setRequestProperty(CHARSET_KEY, CHARSET_VALUE);
 		conec.setRequestProperty(TOKEN_KEY, TOKEN_VALUE);
 		conec.setRequestProperty(LANGUAGE_KEY,LANGUAGE_VALUE);
 		conec.setRequestProperty(USERAGENT_KEY, USERAGENT_VALUE);
-		
-		int responseCode = conec.getResponseCode();
-		System.out.println("Sending 'GET' request to URL : " + url);
-		System.out.println("Response Code : " + responseCode);
-		
-		BufferedReader in = new BufferedReader(
-		        new InputStreamReader(conec.getInputStream()));
-		String inputLine;
-		StringBuffer response = new StringBuffer();
 
-		while ((inputLine = in.readLine()) != null) {
-			response.append(inputLine);
+		StringBuffer response = new StringBuffer();
+		int responseCode = conec.getResponseCode();
+		if(responseCode == 200){
+			try{
+				System.out.println("Sending 'GET' request to URL : " + url);
+				System.out.println("Response Code : " + responseCode);
+				BufferedReader in = new BufferedReader(
+				        new InputStreamReader(conec.getInputStream()));
+				String inputLine;
+				
+	
+				while ((inputLine = in.readLine()) != null) {
+					response.append(inputLine);
+				}
+				in.close();
+				
+				System.out.println("Response Body: " + response.toString());
+				
+				return new RestServiceResponse(responseCode,response.toString(),url,this);
+				
+			}catch(IOException e){
+				e.printStackTrace();
+				return null;
+			}
 		}
-		in.close();
-		
-		System.out.println("Response Body: " + response.toString());
-		
-		return response.toString();
+		else{
+			throw new RestServiceException(responseCode);
+		}
 	}
 	
 }

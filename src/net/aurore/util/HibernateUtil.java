@@ -9,6 +9,9 @@ import net.aurore.entities.AuroreMatch;
 import net.aurore.entities.AuroreMatchEvent;
 import net.aurore.entities.AuroreMatchFrame;
 import net.aurore.entities.AuroreMatchParticipantFrame;
+import net.aurore.entities.AuroreMatchSummary;
+import net.aurore.entities.AuroreParticipantSummary;
+import net.aurore.entities.AuroreTeamSummary;
 import net.aurore.lolservice.entities.MiniSeries;
 import net.aurore.lolservice.entities.Rank;
 import net.aurore.lolservice.entities.Summoner;
@@ -28,7 +31,11 @@ public class HibernateUtil {
 		    	.addAnnotatedClass(AuroreMatch.class)
 		    	.addAnnotatedClass(AuroreMatchFrame.class)
 		    	.addAnnotatedClass(AuroreMatchParticipantFrame.class)
-		    	.addAnnotatedClass(AuroreMatchEvent.class);
+		    	.addAnnotatedClass(AuroreMatchEvent.class)
+		    	.addAnnotatedClass(AuroreMatchSummary.class)
+		    	.addAnnotatedClass(AuroreParticipantSummary.class)
+		    	.addAnnotatedClass(AuroreTeamSummary.class);
+		    
 		    	
 		    System.out.println("Hibernate Annotation Configuration loaded");
 		             

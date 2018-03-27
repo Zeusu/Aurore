@@ -1,6 +1,8 @@
 package net.aurore.datamanager;
 
-import net.aurore.entities.AuroreMatch;
+import java.math.BigInteger;
+import java.util.List;
+import net.aurore.entities.AuroreMatchSummary;
 import net.aurore.lolservice.entities.Rank;
 import net.aurore.lolservice.entities.Summoner;
 
@@ -16,5 +18,7 @@ public interface DataManager {
 	
 	public void saveRank(Rank r);
 	
-	public void saveAuroreMatch(AuroreMatch match);
+	public void saveAuroreMatchSummary(AuroreMatchSummary match);
+	
+	public List<BigInteger> retrieveMatchList(); 
 }
