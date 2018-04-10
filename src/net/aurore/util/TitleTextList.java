@@ -44,7 +44,7 @@ public final class TitleTextList implements Iterable<String[]> {
 				if(arg0[0].equals(arg1[0])) return 0;
 				if(arg0[0].equals("")) return -1;
 				if(arg1[0].equals("")) return 1;
-				return arg0[0].charAt(0) - arg1[0].charAt(0);
+				return (arg0[0].charAt(0) - arg1[0].charAt(0)) + (arg0[0].length() - arg1[0].length());
 			}
 		});
 	}

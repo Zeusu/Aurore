@@ -3,9 +3,15 @@ package net.aurore.core.node;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 import com.neovisionaries.ws.client.WebSocketFactory;
 
+import net.aurore.command.CommandContext;
 import net.aurore.command.CommandManager;
 import net.aurore.command.CommandManagerBuilder;
 import net.aurore.datamanager.DataManager;
@@ -14,6 +20,7 @@ import net.aurore.event.EventManagerBuilder;
 import net.aurore.lolservice.AuroreLoLService;
 import net.aurore.messager.Messager;
 import net.aurore.messager.MessagerImpl;
+import net.aurore.util.ThreadPoolManager;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
@@ -36,6 +43,8 @@ public class AuroreNode extends JDAImpl{
 	private AuroreLoLService LoLService;
 	
 	private DataManager dm;
+	
+	private ThreadPoolExecutor commandPool = ThreadPoolManager.initiatePool(2, 2, 1, TimeUnit.NANOSECONDS);
 	
 	static{
 		totalNodes = 0;
@@ -86,5 +95,19 @@ public class AuroreNode extends JDAImpl{
 	
 	public DataManager getDataManager(){
 		return this.dm;
+	}
+
+	public void runCommand(String id, CommandContext commandContext, String identifier) {
+		commandManagers.get(id).runCommand(commandContext, identifier);
+	}
+	
+	public void useThread(Runnable task){
+		Future<?> f = commandPool.submit(task);
+		try {
+			f.get(1, TimeUnit.MILLISECONDS);
+		} catch (InterruptedException | ExecutionException | TimeoutException e) {
+			f.cancel(true);
+			System.out.println("didier");
+		}
 	}
 }

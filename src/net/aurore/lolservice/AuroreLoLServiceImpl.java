@@ -18,6 +18,7 @@ public class AuroreLoLServiceImpl implements AuroreLoLService {
 	private static final RestService REST_SERVICE = new RestService();
 	
 	private static final String SUMMONER_BY_NAME_URL = "https://euw1.api.riotgames.com/lol/summoner/v3/summoners/by-name/";
+	private static final String SUMMONER_BY_SUMMONER_ID = "https://euw1.api.riotgames.com/lol/summoner/v3/summoners/";
 	private static final String RANK_BY_SUMMONER_ID_URL = "https://euw1.api.riotgames.com/lol/league/v3/positions/by-summoner/";
 	private static final String MATCH_BY_MATCH_ID_URL = "https://euw1.api.riotgames.com/lol/match/v3/timelines/by-match/";
 	private static final String MATCHLIST_BY_ACCOUNT_ID = "https://euw1.api.riotgames.com/lol/match/v3/matchlists/by-account/";
@@ -38,15 +39,26 @@ public class AuroreLoLServiceImpl implements AuroreLoLService {
 	@Override
 	public Summoner summonerByName(String name){
 		try{
-			
-			RestServiceResponse response = REST_SERVICE.doRequest(SUMMONER_BY_NAME_URL + Encoder.encode(name));
-			if(response.isSuccess()) return MAPPER.readValue(response.getResponseText(), Summoner.class);
+			REST_SERVICE.addToQueue(SUMMONER_BY_NAME_URL + Encoder.encode(name));
+			//if(response.isSuccess()) return MAPPER.readValue(response.getResponseText(), Summoner.class);
 			return null;
 		}catch(Exception e){
 			e.printStackTrace();
 			return null;
 		}
 		
+	}
+	
+	@Override
+	public Summoner summonerBySummonerId(long summonerId){
+		try{
+			RestServiceResponse response = REST_SERVICE.doRequest(SUMMONER_BY_SUMMONER_ID + summonerId);
+			return MAPPER.readValue(response.getResponseText(), Summoner.class);
+		}
+		catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	@Override

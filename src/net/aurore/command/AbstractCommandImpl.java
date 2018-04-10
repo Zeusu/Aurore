@@ -11,7 +11,9 @@ public abstract class AbstractCommandImpl implements CommandI{
 
 	private CommandManagerImpl manager;
 	
+	private static int instances = 0;
 	
+	private final int COMMAND_ID; 
 	
 	protected abstract boolean isOk(CommandContext context, String[] args,List <Member> mentioned);
 	
@@ -19,6 +21,8 @@ public abstract class AbstractCommandImpl implements CommandI{
 	
 	public AbstractCommandImpl(CommandManagerImpl manager){
 		this.manager = manager;
+		COMMAND_ID = instances;
+		instances += 1;
 	}
 	
 	protected void send(MessageChannel channel, String msg){
@@ -54,6 +58,14 @@ public abstract class AbstractCommandImpl implements CommandI{
 		}else{
 			return null;
 		}
+	}
+	
+	public int getId(){
+		return COMMAND_ID;
+	}
+	
+	public String generateCommandKey(CommandContext context){
+		return "" + COMMAND_ID + context.getGuild().getId() + context.getAuthor().getId();
 	}
 	
 }

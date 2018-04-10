@@ -69,7 +69,7 @@ public class AuroreParticipantSummary {
 	@Column(name = "win")
 	private boolean win;
 	
-	@Column(name = "neutralMinionsKilledEnemyJungle")
+	@Column(name = "neutralMinionsKilledEnnemyJungle")
 	private int neutralMinionsKilledEnemyJungle;
 	
 	@Column(name = "largestCriticalStrike")
@@ -192,7 +192,7 @@ public class AuroreParticipantSummary {
 	@Column(name = "damageDealtToTurrets")
 	private long damageDealtToTurrets;
 	
-	@Column(name = "physicalDamageDealToChampions")
+	@Column(name = "physicalDamageDealtToChampions")
 	private long physicalDamageDealtToChampions;
 	
 	@Column(name = "goldSpent")
@@ -245,6 +245,8 @@ public class AuroreParticipantSummary {
 
 	@Column(name = "pentaKills")
 	private int pentaKills;
+	
+	public AuroreParticipantSummary(){}
 	
 	public AuroreParticipantSummary(MatchesParticipantIdentity pI, MatchesParticipant p, MatchesParticipantStats stats, AuroreMatchSummary match) {
 		this.match = match;

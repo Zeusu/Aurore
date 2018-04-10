@@ -11,6 +11,7 @@ import net.aurore.command.CommandManagerImpl;
 import net.dv8tion.jda.core.entities.Member;
 
 @Command("test")
+@SuppressWarnings("unused")
 public class CommandTest extends AbstractCommandImpl {
 
 	private static final BigInteger TEST_MATCH = new BigInteger("3550152327");
@@ -31,8 +32,10 @@ public class CommandTest extends AbstractCommandImpl {
 		}*/
 		//System.out.println(getCommandManager().getDM().retrieveMatchList().get(0));
 		
-		getCommandManager().getLoLService().matchesByMatchId(TEST_MATCH);
+		//getCommandManager().getLoLService().matchesByMatchId(TEST_MATCH);
 		
+		getCommandManager().getLoLService().summonerByName("Riasu sama");
+
 	}
 
 	@Override

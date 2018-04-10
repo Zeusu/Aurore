@@ -9,6 +9,7 @@ public class AuroreException extends Exception{
 	protected void sendError(String toSend){
 		System.err.println(AURORE_ERROR_FIRST_LINE);
 		System.err.println(toSend);
+		AuroreConsoleMessages.add(AURORE_ERROR_FIRST_LINE + "\n" + toSend);
 	}
 	
 }

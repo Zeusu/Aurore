@@ -5,24 +5,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Callable;
 
-
-import net.aurore.util.ThreadPoolManager;
-
-
-
-public class RestService{
-	
-	
-	
-	
-	
-	private static final int MAX_REQUEST_PER_SECOUND = 20;
-	private static final int SECOUND = 1000;
-	private static final int MAX_REQUEST_EVERY_TWO_MINUTES = 100;
-	private static final int TWO_MINUTES = 120000;
+public class RestServiceHTTPGetRequest implements Callable<RestServiceResponse>{
 	
 	private static final String ORIGIN_KEY = "Origin";
 	private static final String ORIGIN_VALUE = null;
@@ -34,46 +19,21 @@ public class RestService{
 	private static final String LANGUAGE_VALUE = "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3";
 	private static final String USERAGENT_KEY = "User-Agent";
 	private static final String USERAGENT_VALUE = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0";
+
+	private final String url;
 	
+	private final RestService service;
 	
-	
-	private static final ThreadPoolExecutor POOL = ThreadPoolManager.initiatePool(3, 3, 1, TimeUnit.MINUTES);
-	
-	private static final RestServiceQueue QUEUE = new RestServiceQueue(SECOUND, MAX_REQUEST_PER_SECOUND, TWO_MINUTES, MAX_REQUEST_EVERY_TWO_MINUTES);
-	
-	private final RestServiceControllerThread CONTROLLER;
-	
-	public RestService(){
-		CONTROLLER = new RestServiceControllerThread(this);
-		ThreadPoolManager.addSingleThread(CONTROLLER);
-		CONTROLLER.start();
+	public RestServiceHTTPGetRequest(String url,RestService service){
+		this.url = url;
+		this.service = service;
 	}
 	
-	synchronized public long queue(){
-		return QUEUE.queue();
-	}
 	
-	synchronized public void doRequest() throws Exception{
-		RestServiceRequest req = QUEUE.getToTreatRequest();
-		if(req == null) return;
-		POOL.submit(new RestServiceHTTPGetRequest(QUEUE.getToTreatRequest().getURL(),this));
-		req.validated();
-	}
 	
-	synchronized public void addToQueue(String url){
-		QUEUE.addToQueue(url);
-	}
 	
-	synchronized public RestServiceResponse doRequest(String url) throws RestServiceException, IOException{
-		
-		/*long toWait = QUEUE.queue();
-		
-		try {
-			Thread.sleep(toWait);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}*/
-		
+	@Override
+	public RestServiceResponse call() throws Exception {
 		URL obj = new URL(url);
 		HttpURLConnection conec = (HttpURLConnection) obj.openConnection();
 			
@@ -103,7 +63,7 @@ public class RestService{
 				
 				System.out.println("Response Body: " + response.toString());
 				
-				return new RestServiceResponse(responseCode,response.toString(),url,this);
+				return new RestServiceResponse(responseCode,response.toString(),url,service);
 				
 			}catch(IOException e){
 				e.printStackTrace();
@@ -116,8 +76,4 @@ public class RestService{
 		}
 	}
 
-	public boolean queueEmpty() {	
-		return QUEUE.isEmpty();
-	}
-	
 }

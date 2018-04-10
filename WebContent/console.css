@@ -1,0 +1,56 @@
+
+body{
+	background: url("./bg.png");
+	background-attachment: fixed;
+	background-size: 100% 100%;
+}
+
+main{
+	position: fixed;
+	width: 60vw;
+	height: 70vh;
+	left: 20vw;
+	top: 10vh;
+	background-color: rgba(0,0,0,0.7);
+	border-radius:2%;
+	border: 3px grey;
+	border-style:ridge;
+	box-sizing: border-box;
+}
+
+main>ul{
+    display: block;
+    margin: auto;
+    width: 80%;
+    height: 68%;
+    background-color: rgba(255,255,255,0.8);
+    list-style: none;
+    padding: 0;
+    margin-top: 5%;
+    border-radius: 5px;
+    border: 2px #aaa;
+    border-style: inset;
+    overflow-x: hidden;
+	overflow-y: scroll;
+}
+main>ul>li{
+	width: 100%;
+	padding-left: 1em;
+	border-bottom: 1px black solid;
+	background-color: rgba(255,255,255,0.5);
+	box-sizing: border-box;
+}
+
+main>form{
+	margin:auto;
+	width: 75%;
+	margin-top: 5%;
+}
+
+main>form>input{
+	background-color: rgba(255,255,255,0.8);
+	width: 100%;
+	border-radius: 5px;
+    border: 2px #aaa;
+    border-style: inset;
+}

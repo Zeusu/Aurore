@@ -12,4 +12,8 @@ public interface CommandI {
 	public String help();
 	
 	public String getCatHelp();
+	
+	public int getId();
+	
+	public String generateCommandKey(CommandContext contex);
 }

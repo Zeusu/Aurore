@@ -1,4 +1,4 @@
-package net.aurore.command.utility;
+package net.aurore.command.lol;
 
 import java.util.List;
 
@@ -50,7 +50,7 @@ public class CommandGetSummoner extends AbstractCommandImpl{
 
 	@Override
 	public String getCatHelp() {
-		return CommandCat.TEST.toString();
+		return CommandCat.LOL.toString();
 	}
 
 	@Override

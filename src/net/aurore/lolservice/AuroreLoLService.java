@@ -15,6 +15,8 @@ public interface AuroreLoLService {
 	
 	public Summoner summonerByName(String name);
 	
+	public Summoner summonerBySummonerId(long summonerId);
+	
 	public Rank rankBySummonerId(long summonerId);
 	
 	public Match matchByMatchId(BigInteger matchId);

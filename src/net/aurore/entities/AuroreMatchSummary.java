@@ -16,7 +16,7 @@ import net.aurore.lolservice.entities.MatchesTeamStats;
 public class AuroreMatchSummary {
 	
 	@Id
-	@Column(name = "matchId", nullable = false, unique = true)
+	@Column(name = "match_id", nullable = false, unique = true)
 	private BigInteger matchId;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "match", fetch = FetchType.LAZY)

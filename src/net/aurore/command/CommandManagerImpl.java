@@ -8,20 +8,21 @@ import java.util.Set;
 
 import org.reflections.Reflections;
 
+import net.aurore.core.AuroreConsoleMessages;
 import net.aurore.core.node.AuroreNode;
 import net.aurore.datamanager.DataManager;
 import net.aurore.lolservice.AuroreLoLService;
 import net.aurore.util.TitleTextList;
 
 public class CommandManagerImpl implements CommandManager {
-
 	
 	private static final String PACKAGE_PATH = "net.aurore.command";
 	
 	private Map<String,CommandI> commands = new HashMap<String,CommandI>();
 	
 	private AuroreNode node;
-		
+	
+	
 	protected CommandManagerImpl(AuroreNode node){
 		this.node = node;
 		init();
@@ -49,7 +50,13 @@ public class CommandManagerImpl implements CommandManager {
 	public void runCommand(CommandContext context, String identifier) {
 		if(hasCommand(identifier)){
 			try{
-				commands.get(identifier).onInvoke(context, context.getMsg().getContentRaw().split(" "), context.getMsg().getMentionedMembers());
+				node.useThread(new Runnable(){
+					@Override
+					public void run() {
+						commands.get(identifier).onInvoke(context, context.getMsg().getContentRaw().split(" "), context.getMsg().getMentionedMembers());
+						AuroreConsoleMessages.add("[Aurore] " + context.getAuthor().getName() + " try to execute command: " + identifier + " on " + context.getGuild().getName());
+					}
+				});
 			}catch(Exception e){
 				System.err.println("Command internal error");
 				e.printStackTrace();

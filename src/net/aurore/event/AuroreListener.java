@@ -1,5 +1,6 @@
 package net.aurore.event;
 
+import net.aurore.core.AuroreConsoleMessages;
 import net.aurore.core.Config;
 import net.aurore.core.node.AuroreNode;
 import net.dv8tion.jda.core.entities.ChannelType;
@@ -44,7 +45,7 @@ public class AuroreListener extends ListenerAdapter {
 				true);
 		String identifier = commandIdentifier.split(" ")[0];
 		if(!isPM){
-			node.getCommandManager(commandContext.getGuild().getId()).runCommand(commandContext,identifier);
+			node.runCommand(commandContext.getGuild().getId(),commandContext,identifier);
 		}
 	}
 }

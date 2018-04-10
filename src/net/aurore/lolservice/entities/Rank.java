@@ -60,8 +60,7 @@ public class Rank {
 	@Column(name = "leaguePoints")
 	private int leaguePoints = 0;
 
-	@OneToOne
-	@JoinColumn(name = "miniSeries")
+	@Transient
 	private MiniSeries miniSeries = null;
 	
 	
