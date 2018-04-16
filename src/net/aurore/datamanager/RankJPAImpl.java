@@ -25,10 +25,14 @@ public class RankJPAImpl implements RankJPA {
 	
 	@Override
 	public void save() {
-		sess.beginTransaction();
-		sess.save(rank);
-		sess.getTransaction().commit();
-		sess.clear();
+		try{
+			sess.beginTransaction();
+			sess.saveOrUpdate(rank);
+			sess.getTransaction().commit();
+			sess.clear();
+		}catch(Exception e){
+			System.out.println(e);
+		}
 	}
 
 

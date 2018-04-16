@@ -8,7 +8,7 @@ import java.net.URL;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-
+import net.aurore.entities.Context;
 import net.aurore.util.ThreadPoolManager;
 
 
@@ -29,7 +29,7 @@ public class RestService{
 	private static final String CHARSET_KEY = "Accept-Charset";
 	private static final String CHARSET_VALUE = "application/x-www-form-urlencoded; charset=UTF-8";
 	private static final String TOKEN_KEY = "X-Riot-Token";
-	private static final String TOKEN_VALUE = "RGAPI-d824d42f-dddf-48c6-99de-ee547cf4489c";
+	private static final String TOKEN_VALUE = "RGAPI-32321af1-93d0-446a-9fcc-0c46e415ec5f";
 	private static final String LANGUAGE_KEY = "Accept-Language";
 	private static final String LANGUAGE_VALUE = "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3";
 	private static final String USERAGENT_KEY = "User-Agent";
@@ -49,19 +49,33 @@ public class RestService{
 		CONTROLLER.start();
 	}
 	
-	synchronized public long queue(){
+	public long queue(){
 		return QUEUE.queue();
 	}
 	
 	synchronized public void doRequest() throws Exception{
 		RestServiceRequest req = QUEUE.getToTreatRequest();
 		if(req == null) return;
-		POOL.submit(new RestServiceHTTPGetRequest(QUEUE.getToTreatRequest().getURL(),this));
+		RestServiceHTTPGetRequest httpRequest = new RestServiceHTTPGetRequest(QUEUE.getToTreatRequest().getURL(),this);
+		POOL.submit(new Runnable(){
+			@Override
+			public void run() {
+				RestServiceResponse r = null;
+				try {
+					r = httpRequest.execute();
+				} catch (RestServiceException | IOException e) {
+					e.printStackTrace();
+				}
+				if(r != null && r.getResponseCode() == 200){
+					AuroreLoLResponseHandler.pushResponseTo(req.getKey(), req.getContext(), r, req.getCls());
+				}
+			}
+		});
 		req.validated();
 	}
 	
-	synchronized public void addToQueue(String url){
-		QUEUE.addToQueue(url);
+	synchronized public void addToQueue(String url,Context<?> c, String key,Class<?> cls){
+		QUEUE.addToQueue(url,c,key,cls);
 	}
 	
 	synchronized public RestServiceResponse doRequest(String url) throws RestServiceException, IOException{

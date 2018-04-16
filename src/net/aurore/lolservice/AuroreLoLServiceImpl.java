@@ -1,11 +1,8 @@
 package net.aurore.lolservice;
 
 import java.math.BigInteger;
-import java.util.LinkedList;
-import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
+import net.aurore.entities.Context;
 import net.aurore.lolservice.entities.Match;
 import net.aurore.lolservice.entities.MatchList;
 import net.aurore.lolservice.entities.Matches;
@@ -24,9 +21,7 @@ public class AuroreLoLServiceImpl implements AuroreLoLService {
 	private static final String MATCHLIST_BY_ACCOUNT_ID = "https://euw1.api.riotgames.com/lol/match/v3/matchlists/by-account/";
 	private static final String MATCHES_BY_MATCH_ID = "https://euw1.api.riotgames.com/lol/match/v3/matches/";
 	
-	private static final ObjectMapper MAPPER = new ObjectMapper();
-	
-	
+
 	@Override
 	public void testRequest(){		
 		try {
@@ -37,102 +32,69 @@ public class AuroreLoLServiceImpl implements AuroreLoLService {
 	}
 	
 	@Override
-	public Summoner summonerByName(String name){
+	public void summonerByName(String name, Context<?> c, String key){
 		try{
-			REST_SERVICE.addToQueue(SUMMONER_BY_NAME_URL + Encoder.encode(name));
-			//if(response.isSuccess()) return MAPPER.readValue(response.getResponseText(), Summoner.class);
-			return null;
+			REST_SERVICE.addToQueue(SUMMONER_BY_NAME_URL + Encoder.encode(name),c,key, Summoner.class);
 		}catch(Exception e){
 			e.printStackTrace();
-			return null;
 		}
 		
 	}
 	
 	@Override
-	public Summoner summonerBySummonerId(long summonerId){
+	public void summonerBySummonerId(long summonerId, Context<?> c, String key){
 		try{
-			RestServiceResponse response = REST_SERVICE.doRequest(SUMMONER_BY_SUMMONER_ID + summonerId);
-			return MAPPER.readValue(response.getResponseText(), Summoner.class);
+			REST_SERVICE.addToQueue(SUMMONER_BY_SUMMONER_ID + summonerId, c, key, Summoner.class);
 		}
 		catch(Exception e){
 			e.printStackTrace();
-			return null;
 		}
 	}
 	
 	@Override
-	public Rank rankBySummonerId(long summonerId){
+	public void rankBySummonerId(long summonerId, Context<?> c, String key){
 		try{
-			RestServiceResponse response = REST_SERVICE.doRequest(RANK_BY_SUMMONER_ID_URL + summonerId);
-			if(response.isSuccess()){
-				Rank[] ranks = MAPPER.readValue(response.getResponseText(), Rank[].class);
-				Rank result = null;
-				for(Rank r : ranks) if(r.getQueueType().equals(Rank.RANKED_SOLO)){
-					result = r;
-					result.setSummonerId(summonerId);
-				}
-				return result;
-			}
-			return null;
+			REST_SERVICE.addToQueue(RANK_BY_SUMMONER_ID_URL + summonerId, c, key, Rank[].class);
 		}catch(Exception e){
 			e.printStackTrace();
-			return null;
 		}
 		
 	}
 
 	@Override
-	public Match matchByMatchId(BigInteger matchId) {
+	public void matchByMatchId(BigInteger matchId, Context<?> c, String key) {
 		try{
-			String response = REST_SERVICE.doRequest(MATCH_BY_MATCH_ID_URL + matchId).getResponseText();
-			if(response != null){
-				Match m = MAPPER.readValue(response, Match.class);
-				m.setMatchId(matchId);
-				return m;
-			}
-			return null;
+			REST_SERVICE.addToQueue(MATCH_BY_MATCH_ID_URL + matchId, c, key, Match.class);
 		}catch(Exception e){
 			e.printStackTrace();
-			return null;
 		}
 	}
 
 	@Override
-	public List<MatchList> matchListByAccountId(long accountId) {
-		List<MatchList> result = new LinkedList<MatchList>();
+	public void matchListByAccountId(long accountId, Context<?> c, String key) {
 		try{
-			String response = REST_SERVICE.doRequest(MATCHLIST_BY_ACCOUNT_ID + accountId).getResponseText();
-			if(response != null){
-				MatchList m = MAPPER.readValue(response, MatchList.class);
-				result.add(m);
-				while(m.getEndIndex() <= m.getTotalGames() - 1){
-					response = REST_SERVICE.doRequest(MATCHLIST_BY_ACCOUNT_ID + accountId + "?beginIndex=" + m.getEndIndex()).getResponseText();
-					if(response != null){
-						m = MAPPER.readValue(response, MatchList.class);
-						result.add(m);
-					}
-				}
-			}
+			REST_SERVICE.addToQueue(MATCHLIST_BY_ACCOUNT_ID + accountId, c, key, MatchList.class);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
-		return result;
+	}
+	
+	@Override
+	public void matchListByAccountIdWithStartIndex(long accountId, long startIndex ,Context<?> c, String key) {
+		try{
+			REST_SERVICE.addToQueue(MATCHLIST_BY_ACCOUNT_ID + accountId + "?beginIndex=" + startIndex, c, key, MatchList.class);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 
 	@Override
-	public Matches matchesByMatchId(BigInteger matchId) {
+	public void matchesByMatchId(BigInteger matchId, Context<?> c, String key) {
 		try {
-			RestServiceResponse response = REST_SERVICE.doRequest(MATCHES_BY_MATCH_ID + matchId);
-			if(response.isSuccess()){
-				Matches m = MAPPER.readValue(response.getResponseText(), Matches.class);
-				m.setMatchId(matchId);
-				return m;
-			}
+			REST_SERVICE.addToQueue(MATCHES_BY_MATCH_ID + matchId, c, key, Matches.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return null;
 	}
 	
 }

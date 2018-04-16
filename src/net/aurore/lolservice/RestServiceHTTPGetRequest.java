@@ -5,16 +5,15 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.concurrent.Callable;
 
-public class RestServiceHTTPGetRequest implements Callable<RestServiceResponse>{
+public class RestServiceHTTPGetRequest{
 	
 	private static final String ORIGIN_KEY = "Origin";
 	private static final String ORIGIN_VALUE = null;
 	private static final String CHARSET_KEY = "Accept-Charset";
 	private static final String CHARSET_VALUE = "application/x-www-form-urlencoded; charset=UTF-8";
 	private static final String TOKEN_KEY = "X-Riot-Token";
-	private static final String TOKEN_VALUE = "RGAPI-d824d42f-dddf-48c6-99de-ee547cf4489c";
+	private static final String TOKEN_VALUE = "RGAPI-32321af1-93d0-446a-9fcc-0c46e415ec5f";
 	private static final String LANGUAGE_KEY = "Accept-Language";
 	private static final String LANGUAGE_VALUE = "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3";
 	private static final String USERAGENT_KEY = "User-Agent";
@@ -30,10 +29,7 @@ public class RestServiceHTTPGetRequest implements Callable<RestServiceResponse>{
 	}
 	
 	
-	
-	
-	@Override
-	public RestServiceResponse call() throws Exception {
+	public RestServiceResponse execute() throws IOException, RestServiceException{
 		URL obj = new URL(url);
 		HttpURLConnection conec = (HttpURLConnection) obj.openConnection();
 			

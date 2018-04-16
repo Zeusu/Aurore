@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "rank")
-public class Rank {
+public class Rank extends AuroreLoLEntity{
 
 	@JsonIgnore
 	public static final String RANKED_SOLO = "RANKED_SOLO_5x5";

@@ -1,28 +1,25 @@
 package net.aurore.lolservice;
 
 import java.math.BigInteger;
-import java.util.List;
 
-import net.aurore.lolservice.entities.Match;
-import net.aurore.lolservice.entities.MatchList;
-import net.aurore.lolservice.entities.Matches;
-import net.aurore.lolservice.entities.Rank;
-import net.aurore.lolservice.entities.Summoner;
+import net.aurore.entities.Context;
 
 public interface AuroreLoLService {
 		
 	public void testRequest();
 	
-	public Summoner summonerByName(String name);
+	public void summonerByName(String name, Context<?> c, String key);
 	
-	public Summoner summonerBySummonerId(long summonerId);
+	public void summonerBySummonerId(long summonerId, Context<?> c, String key);
 	
-	public Rank rankBySummonerId(long summonerId);
+	public void rankBySummonerId(long summonerId, Context<?> c, String key);
 	
-	public Match matchByMatchId(BigInteger matchId);
+	public void matchByMatchId(BigInteger matchId, Context<?> c, String key);
 	
-	public List<MatchList> matchListByAccountId(long accountId);
+	public void matchListByAccountId(long accountId, Context<?> c, String key);
 	
-	public Matches matchesByMatchId(BigInteger matchId);
+	public void matchListByAccountIdWithStartIndex(long accountId, long startIndex ,Context<?> c, String key);
+	
+	public void matchesByMatchId(BigInteger matchId, Context<?> c, String key);
 	
 }

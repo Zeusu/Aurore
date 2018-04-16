@@ -2,7 +2,7 @@ package net.aurore.lolservice.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-public class MiniSeries {
+public class MiniSeries extends AuroreLoLEntity{
 	
 	@JsonIgnore
 	private long id;

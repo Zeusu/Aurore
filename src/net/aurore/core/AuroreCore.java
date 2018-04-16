@@ -53,5 +53,6 @@ public class AuroreCore implements ServletContextListener{
 	public void contextDestroyed(ServletContextEvent arg0) {
 		AuroreConsoleMessages.add("[Aurore] Is going to shutdown");
 		ThreadPoolManager.shutdown();
+		node.shutdownNow();
 	}
 }

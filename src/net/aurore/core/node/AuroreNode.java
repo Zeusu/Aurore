@@ -107,7 +107,6 @@ public class AuroreNode extends JDAImpl{
 			f.get(1, TimeUnit.MILLISECONDS);
 		} catch (InterruptedException | ExecutionException | TimeoutException e) {
 			f.cancel(true);
-			System.out.println("didier");
 		}
 	}
 }

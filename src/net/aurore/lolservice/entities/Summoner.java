@@ -5,7 +5,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "summoner")
-public class Summoner {
+public class Summoner extends AuroreLoLEntity{
 
 	@Id
 	@Column(name = "id")

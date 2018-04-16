@@ -1,6 +1,5 @@
 package net.aurore.event;
 
-import net.aurore.core.AuroreConsoleMessages;
 import net.aurore.core.Config;
 import net.aurore.core.node.AuroreNode;
 import net.dv8tion.jda.core.entities.ChannelType;

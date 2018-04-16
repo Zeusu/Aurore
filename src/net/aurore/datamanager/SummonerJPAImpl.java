@@ -41,7 +41,7 @@ public class SummonerJPAImpl implements SummonerJPA {
 	@Override
 	public void save() {
 		sess.beginTransaction();
-		sess.save(sum);
+		sess.saveOrUpdate(sum);
 		sess.getTransaction().commit();
 		sess.clear();
 	}

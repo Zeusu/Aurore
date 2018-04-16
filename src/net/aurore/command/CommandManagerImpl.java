@@ -11,6 +11,8 @@ import org.reflections.Reflections;
 import net.aurore.core.AuroreConsoleMessages;
 import net.aurore.core.node.AuroreNode;
 import net.aurore.datamanager.DataManager;
+import net.aurore.lolservice.AuroreLoLListener;
+import net.aurore.lolservice.AuroreLoLResponseHandler;
 import net.aurore.lolservice.AuroreLoLService;
 import net.aurore.util.TitleTextList;
 
@@ -36,6 +38,9 @@ public class CommandManagerImpl implements CommandManager {
 			CommandI instance = null;
 			try {
 				instance = (CommandI) clss.getConstructor(this.getClass()).newInstance(this);
+				if(AuroreLoLListener.class.isAssignableFrom(clss)){
+					AuroreLoLResponseHandler.addListener((AuroreLoLListener) instance);
+				}
 			} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
 					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();

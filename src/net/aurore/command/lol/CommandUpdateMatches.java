@@ -10,6 +10,7 @@ import net.aurore.command.CommandManagerImpl;
 import net.aurore.command.LoLCommand;
 import net.aurore.entities.AuroreMatchSummary;
 import net.aurore.entities.AuroreParticipantSummary;
+import net.aurore.entities.Context;
 import net.aurore.entities.MatchListItem;
 import net.dv8tion.jda.core.entities.Member;
 
@@ -50,6 +51,10 @@ public class CommandUpdateMatches extends LoLCommand{
 	@Override
 	protected boolean isOk(CommandContext context, String[] args, List<Member> mentioned) {
 		return true;
+	}
+
+	@Override
+	public void callback(Context<?> context, Object e) {
 	}
 
 }

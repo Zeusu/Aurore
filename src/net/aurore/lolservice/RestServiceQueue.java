@@ -2,6 +2,8 @@ package net.aurore.lolservice;
 
 import java.util.LinkedList;
 
+import net.aurore.entities.Context;
+
 public class RestServiceQueue {
 
 	private final LinkedList<RestServiceRequest> QUEUE_SEC = new LinkedList<RestServiceRequest>();
@@ -23,9 +25,9 @@ public class RestServiceQueue {
 		nbRequestMin = nbReqM;
 	}
 	
-	protected void addToQueue(String url){
+	protected void addToQueue(String url, Context<?> c, String key,Class<?> cl){
 		long date = System.currentTimeMillis();
-		RestServiceRequest r = new RestServiceRequest(url,date);
+		RestServiceRequest r = new RestServiceRequest(url,date,c,key,cl);
 		QUEUE_SEC.add(r);
 		QUEUE_MIN.add(r);
 	}
@@ -41,9 +43,15 @@ public class RestServiceQueue {
 	protected long queue(){
 		
 		long now = System.currentTimeMillis();
-		long sValue = doQueue(QUEUE_SEC,now,interval, nbRequest);
-		long mValue = doQueue(QUEUE_MIN,now, intervalMin, nbRequestMin);
+		long sValue = 0;
+		long mValue = 0;
 		
+		if(QUEUE_SEC.size() != 0){
+			sValue = doQueue(QUEUE_SEC,now,interval, nbRequest);
+		}
+		if(QUEUE_MIN.size() != 0){
+			mValue = doQueue(QUEUE_MIN,now, intervalMin, nbRequestMin);
+		}
 		return Math.max(sValue, mValue); 
 
 	}
@@ -52,19 +60,27 @@ public class RestServiceQueue {
 		if(now > q.getFirst().getDate() + interval){
 			clearQueue(q,now, interval);
 		}
-		Long l = q.getFirst().getDate();
 		
 		if(nbRequest > q.size() + 1) return 0;
+		
+		Long l = q.getFirst().getDate();
 		
 		return interval - Math.abs(now - l.longValue());
 
 	}
 	
 	
-	private void clearQueue(LinkedList<RestServiceRequest> q,long currentTime, long rmTime){
-		if(currentTime > q.getFirst().getDate() + rmTime){
-			q.removeFirst();
-			clearQueue(q, currentTime, rmTime);
+	private void clearQueue(LinkedList<RestServiceRequest> q, long currentTime, long rmTime) {
+		RestServiceRequest first = null;
+		if(q.size() > 0){
+			first = q.removeFirst();
+		}
+		if(first != null){
+			if (currentTime > first.getDate() + rmTime) {
+				if (q.size() > 0){
+					clearQueue(q, currentTime, rmTime);
+				}
+			}
 		}
 		return;
 	}

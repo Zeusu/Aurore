@@ -21,6 +21,7 @@ public class AuroreLoLCalculatorImpl implements AuroreLoLCalculator{
 	AuroreLoLCalculatorImpl(List<AuroreMatchSummary> l) throws CalculatorInitException{
 		if(l == null) throw new CalculatorInitException("Can not init a calculator with null list");
 		matches = l;
+	
 	}
 	
 	@Override
@@ -110,6 +111,7 @@ public class AuroreLoLCalculatorImpl implements AuroreLoLCalculator{
 			total += d;
 		}
 		return total/divider;
+		
 	}
 	
 	

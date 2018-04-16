@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.math.BigInteger;
 
-public class Matches {
+public class Matches extends AuroreLoLEntity{
 	
 	@JsonIgnore
 	private BigInteger matchId;

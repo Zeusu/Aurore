@@ -21,12 +21,7 @@ public class DataManagerImpl implements DataManager {
 
 	@Override
 	public boolean saveSummoner(Summoner s) {
-		boolean isStored = retrieveSummonerById(s.getId()) != null;
-		if(isStored){
-			new SummonerJPAImpl(s,session).update();
-		}else{
-			new SummonerJPAImpl(s,session).save();
-		}
+		new SummonerJPAImpl(s,session).save();
 		return true;
 	}
 

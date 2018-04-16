@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class MatchList implements Iterable<MatchSummary> {
+public class MatchList extends AuroreLoLEntity implements Iterable<MatchSummary>  {
 
 	private List<MatchSummary> matches = new ArrayList<MatchSummary>();
 	private int totalGames;
