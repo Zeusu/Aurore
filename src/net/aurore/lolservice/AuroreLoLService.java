@@ -6,8 +6,6 @@ import net.aurore.entities.Context;
 
 public interface AuroreLoLService {
 		
-	public void testRequest();
-	
 	public void summonerByName(String name, Context<?> c, String key);
 	
 	public void summonerBySummonerId(long summonerId, Context<?> c, String key);

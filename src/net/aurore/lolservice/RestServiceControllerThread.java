@@ -15,22 +15,24 @@ public class RestServiceControllerThread extends Thread{
 	@Override
 	public void run() {
 		while (!(this.isInterrupted())) {
-			if (!SERVICE.queueEmpty()) {
-				long delay = SERVICE.queue();
-				if (delay != 0) {
+			synchronized (this) {
+				if (!SERVICE.queueEmpty()) {
+					long delay = SERVICE.queue();
+					if (delay != 0) {
+						try {
+							wait(delay);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
+					}
 					try {
-						wait(delay);
-					} catch (InterruptedException e) {
+						SERVICE.doRequest();
+					} catch (Exception e) {
 						e.printStackTrace();
 					}
 				}
-				try {
-					SERVICE.doRequest();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
 
+			}
 		}
 	}
 }

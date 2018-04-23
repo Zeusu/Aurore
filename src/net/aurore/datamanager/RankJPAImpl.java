@@ -41,6 +41,8 @@ public class RankJPAImpl implements RankJPA {
 		Query query = sess.createQuery(RANK_BY_SUMMONER_ID);
 		query.setParameter(PARAM_SUMMONER_ID, summonerId);
 		Object o = query.uniqueResult();
+		System.out.println("Rank ?");
+		System.out.println(o);
 		if(o == null) return null;
 		if(o instanceof Rank){
 			return (Rank) o;

@@ -42,44 +42,6 @@ public class CommandUpdateSummoner extends LoLCommandMultiRequest{
 		getLoLService().summonerByName(summonerName, new Context<CommandContext>(context), key());
 		setIndex(context.getAuthor().getId(),0);
 
-		
-		/*
-		if(s == null) return;
-		if(!isStored){
-			getDM().saveSummoner(s);
-		}
-		
-		isStored = true;
-		Rank r = getDM().retrieveRankBySummonerId(s.getId());
-		if(r == null){
-			r = getLoLService().rankBySummonerId(s.getId());
-			isStored = false;
-		}
-		if(!isStored && r != null){
-			getDM().saveRank(r);
-		}
-		
-		List<BigInteger> currents = getDM().retrieveMatchList();
-		List<MatchList> matches = getLoLService().matchListByAccountId(s.getAccountId());
-		
-		for(MatchList l : matches){
-			for(MatchSummary m : l){
-				int count = 0;
-				
-				for(BigInteger i : currents){
-					if(BigInteger.valueOf(m.getGameId()).equals(i)) count += 1;
-				}
-				
-				if(count == 0){
-					Matches lolMatch = getCommandManager().getLoLService().matchesByMatchId(BigInteger.valueOf(m.getGameId()));
-					if(lolMatch != null)
-						getCommandManager().getDM().saveAuroreMatchSummary(new AuroreMatchSummary(lolMatch));
-				}
-			}
-		}
-		
-		System.out.println("/!\\ End of Update /!\\");
-		*/
 	}
 
 	@Override
@@ -99,16 +61,10 @@ public class CommandUpdateSummoner extends LoLCommandMultiRequest{
 			setIndex(userId, 1);
 			getLoLService().rankBySummonerId(s.getId(), new Context<CommandContext>(context), key());
 		}
-		else if(e instanceof Rank[] && rootIndex == 1){
-			Rank[] ranks = (Rank[]) e;
-			Rank r = null;
-			for(Rank rk : ranks){
-				if(rk.getQueueType().equals(Rank.RANKED_SOLO)) r = rk;
-			}
-			if(r != null){
-				getDM().saveRank(r);
-				store(userId,1,r);
-			}
+		else if(e instanceof Rank && rootIndex == 1){
+			Rank r = (Rank) e;
+			getDM().saveRank(r);
+			store(userId,1,r);
 			setIndex(userId,2);
 			getLoLService().matchListByAccountId(((Summoner) getEntity(userId,0)).getAccountId(),new Context<CommandContext>(context), key());
 		}
@@ -120,10 +76,10 @@ public class CommandUpdateSummoner extends LoLCommandMultiRequest{
 					getLoLService().matchByMatchId(matchId,new Context<CommandContext>(context), key());
 				}
 			}
-			getLoLService().matchListByAccountIdWithStartIndex(((Summoner) getEntity(userId,0)).getAccountId(), m.getEndIndex() ,new Context<CommandContext>(context), key());
+			if(m.getEndIndex() != m.getTotalGames() && m.getStartIndex() != m.getEndIndex())
+				getLoLService().matchListByAccountIdWithStartIndex(((Summoner) getEntity(userId,0)).getAccountId(), m.getEndIndex() ,new Context<CommandContext>(context), key());
 		}
 		else if(e instanceof Matches && rootIndex == 2){
-			
 			getDM().saveAuroreMatchSummary(new AuroreMatchSummary((Matches) e));
 		}
 	}

@@ -1,37 +1,45 @@
 package net.aurore.lolservice;
 
-import net.aurore.entities.Context;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class RestServiceRequest {
+import net.aurore.entities.Context;
+import net.aurore.lolservice.entities.AuroreLoLEntity;
+
+public abstract class RestServiceRequest {
 
 	
 	private final String URL;
 	
-	private final long DATE;
+	private long date;
 	
 	private final Context<?> CONTEXT;
 	
 	private final String KEY;
 	
-	private final Class<?> CLS;
-	
 	private boolean validated = false;
 	
+	protected static final ObjectMapper MAPPER = new ObjectMapper();
 	
-	public RestServiceRequest(String url, long date, Context<?> c, String k, Class<?> cl){
+	public RestServiceRequest(String url, Context<?> c, String k){
 		URL = url;
-		DATE = date;
 		CONTEXT = c;
 		KEY = k;
-		CLS = cl;
 	}
+	
+	
+	public abstract AuroreLoLEntity deserializeRequestObject(String responseText);
+	
 
 	public String getURL(){
 		return URL;
 	}
 	
 	public long getDate(){
-		return DATE;
+		return date;
+	}
+	
+	public void setDate(long date){
+		this.date = date;
 	}
 	
 	public void validated(){
@@ -50,7 +58,4 @@ public class RestServiceRequest {
 		return KEY;
 	}
 
-	public Class<?> getCls() {
-		return CLS;
-	}
 }

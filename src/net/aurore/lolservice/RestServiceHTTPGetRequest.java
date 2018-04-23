@@ -13,26 +13,26 @@ public class RestServiceHTTPGetRequest{
 	private static final String CHARSET_KEY = "Accept-Charset";
 	private static final String CHARSET_VALUE = "application/x-www-form-urlencoded; charset=UTF-8";
 	private static final String TOKEN_KEY = "X-Riot-Token";
-	private static final String TOKEN_VALUE = "RGAPI-32321af1-93d0-446a-9fcc-0c46e415ec5f";
+	private static final String TOKEN_VALUE = "RGAPI-6f156ef0-ef3d-4af1-ab53-1bb9d20539aa";
 	private static final String LANGUAGE_KEY = "Accept-Language";
 	private static final String LANGUAGE_VALUE = "fr,fr-FR;q=0.8,en-US;q=0.5,en;q=0.3";
 	private static final String USERAGENT_KEY = "User-Agent";
 	private static final String USERAGENT_VALUE = "Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0";
 
-	private final String url;
+	private final RestServiceRequest request;
 	
 	private final RestService service;
 	
-	public RestServiceHTTPGetRequest(String url,RestService service){
-		this.url = url;
+	public RestServiceHTTPGetRequest(RestServiceRequest request,RestService service){
+		this.request = request;
 		this.service = service;
 	}
 	
 	
 	public RestServiceResponse execute() throws IOException, RestServiceException{
+		String url = request.getURL();
 		URL obj = new URL(url);
 		HttpURLConnection conec = (HttpURLConnection) obj.openConnection();
-			
 		conec.setRequestMethod("GET");
 			
 		conec.setRequestProperty(ORIGIN_KEY, ORIGIN_VALUE);
@@ -40,7 +40,6 @@ public class RestServiceHTTPGetRequest{
 		conec.setRequestProperty(TOKEN_KEY, TOKEN_VALUE);
 		conec.setRequestProperty(LANGUAGE_KEY,LANGUAGE_VALUE);
 		conec.setRequestProperty(USERAGENT_KEY, USERAGENT_VALUE);
-
 		StringBuffer response = new StringBuffer();
 		int responseCode = conec.getResponseCode();
 		if(responseCode == 200){
@@ -59,7 +58,7 @@ public class RestServiceHTTPGetRequest{
 				
 				System.out.println("Response Body: " + response.toString());
 				
-				return new RestServiceResponse(responseCode,response.toString(),url,service);
+				return new RestServiceResponse(responseCode,response.toString(),request,service);
 				
 			}catch(IOException e){
 				e.printStackTrace();

@@ -1,21 +1,28 @@
 package net.aurore.lolservice;
 
+import net.aurore.entities.Context;
+import net.aurore.lolservice.entities.AuroreLoLEntity;
+
 public class RestServiceResponse {
 
 	private int responseCode;
 	
 	private String responseText;
 	
-	private String requestUrl;
+	private RestServiceRequest request;
 	
 	private RestService service;
 	
-	RestServiceResponse(int code, String text, String requestUrl, RestService service){
+	private AuroreLoLEntity responseEntity = null;
+	
+	
+	RestServiceResponse(int code, String text, RestServiceRequest request, RestService service){
 		responseCode = code;
-		this.requestUrl = requestUrl;
+		this.request = request;
 		this.service = service;
 		if(code == 200){
 			responseText = text;
+			responseEntity = request.deserializeRequestObject(responseText);
 		}else if(code == 404){
 			responseText = "404 not found";
 		}else if(code == 403){
@@ -26,11 +33,7 @@ public class RestServiceResponse {
 			responseText = "Serveur error";
 		}
 	}
-	
-	public RestServiceResponse resend() throws Exception{
-		return service.doRequest(requestUrl);
-	}
-	
+
 	public boolean isSuccess(){
 		return responseCode == 200;
 	}
@@ -43,14 +46,32 @@ public class RestServiceResponse {
 		return responseText;
 	}
 
-	public String getRequestUrl() {
-		return requestUrl;
+	public String toString(){
+		return "Response Code: " + responseCode + "; Response Text: " + responseText + "; Request Url: " + request.getURL();
 	}
 
-	public String toString(){
-		return "Response Code: " + responseCode + "; Response Text: " + responseText + "; Request Url: " + requestUrl;
+	public RestService getService() {
+		return service;
 	}
-	
-	
+
+	public AuroreLoLEntity getResponseEntity() {
+		return responseEntity;
+	}
+
+	public String getURL() {
+		return request.getURL();
+	}
+
+	public long getDate() {
+		return request.getDate();
+	}
+
+	public Context<?> getContext() {
+		return request.getContext();
+	}
+
+	public String getKey() {
+		return request.getKey();
+	}
 	
 }

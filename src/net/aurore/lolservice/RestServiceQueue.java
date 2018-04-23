@@ -2,8 +2,6 @@ package net.aurore.lolservice;
 
 import java.util.LinkedList;
 
-import net.aurore.entities.Context;
-
 public class RestServiceQueue {
 
 	private final LinkedList<RestServiceRequest> QUEUE_SEC = new LinkedList<RestServiceRequest>();
@@ -25,9 +23,8 @@ public class RestServiceQueue {
 		nbRequestMin = nbReqM;
 	}
 	
-	protected void addToQueue(String url, Context<?> c, String key,Class<?> cl){
-		long date = System.currentTimeMillis();
-		RestServiceRequest r = new RestServiceRequest(url,date,c,key,cl);
+	protected void addToQueue(RestServiceRequest r){
+		r.setDate(System.currentTimeMillis());
 		QUEUE_SEC.add(r);
 		QUEUE_MIN.add(r);
 	}
