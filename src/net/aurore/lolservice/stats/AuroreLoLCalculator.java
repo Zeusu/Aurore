@@ -1,4 +1,6 @@
-package net.aurore.lolservice;
+package net.aurore.lolservice.stats;
+
+import net.aurore.lolservice.CalculatorInitException;
 
 public interface AuroreLoLCalculator {
 

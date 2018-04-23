@@ -1,10 +1,11 @@
-package net.aurore.lolservice;
+package net.aurore.lolservice.stats;
 
 import java.util.LinkedList;
 import java.util.List;
 
 import net.aurore.entities.AuroreMatchSummary;
 import net.aurore.entities.AuroreParticipantSummary;
+import net.aurore.lolservice.CalculatorInitException;
 
 public class AuroreLoLCalculatorImpl implements AuroreLoLCalculator{
 
