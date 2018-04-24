@@ -73,7 +73,7 @@ public class CommandUpdateSummoner extends LoLCommandMultiRequest{
 			for(MatchSummary ma : m){
 				BigInteger matchId = BigInteger.valueOf(ma.getGameId());
 				if(getDM().retrieveMatchByMatchId(matchId) == null){
-					getLoLService().matchByMatchId(matchId,new Context<CommandContext>(context), key());
+					getLoLService().matchesByMatchId(matchId,new Context<CommandContext>(context), key());
 				}
 			}
 			if(m.getEndIndex() != m.getTotalGames() && m.getStartIndex() != m.getEndIndex())

@@ -1,7 +1,5 @@
 package net.aurore.lolservice.stats;
 
-import net.aurore.lolservice.CalculatorInitException;
-
 public interface AuroreLoLCalculator {
 
 	public double averageKDA();	
@@ -11,9 +9,5 @@ public interface AuroreLoLCalculator {
 	public double averageDeaths();
 	
 	public double averageAssists();
-	
-	public void focusSummoner(long summonerId) throws CalculatorInitException;
-	
-	public void focusChampion(long championId) throws CalculatorInitException;
 	
 }

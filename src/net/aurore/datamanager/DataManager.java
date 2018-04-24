@@ -3,6 +3,8 @@ package net.aurore.datamanager;
 import java.math.BigInteger;
 import java.util.List;
 import net.aurore.entities.AuroreMatchSummary;
+import net.aurore.entities.AuroreParticipantSummary;
+import net.aurore.entities.AuroreStats;
 import net.aurore.entities.MatchListItem;
 import net.aurore.lolservice.entities.Rank;
 import net.aurore.lolservice.entities.Summoner;
@@ -30,4 +32,10 @@ public interface DataManager {
 	public List<MatchListItem> retrieveItemsBySummonerId(long summonerId);
 	
 	public List<MatchListItem> retrieveItemsByMatchId(BigInteger matchId);
+	
+	public void saveAuroreStats(AuroreStats s);
+	
+	public AuroreStats retrieveAuroreStatsBySummonerId(long summonerId);
+	
+	public List<AuroreParticipantSummary> retrieveParticipantsBySummonerId(long summonerId);
 }

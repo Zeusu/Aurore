@@ -65,7 +65,7 @@ public class AuroreNode extends JDAImpl{
 		for(Guild guild : getGuilds()){
 			commandManagers.put(guild.getId(), new CommandManagerBuilder().build(this));
 			eventManagers.put(guild.getId(), new EventManagerBuilder().build(this));
-			System.out.println(guild.getId());
+			System.out.println("[Aurore] connected to guild: " + guild.getName());
 		}
 	}
 	

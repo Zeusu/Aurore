@@ -12,4 +12,5 @@ public interface AuroreMatchSummaryJPA {
 	public List<BigInteger> retrieveMatchList();
 	
 	public AuroreMatchSummary retrieveByMatchId(BigInteger matchId);
+	
 }

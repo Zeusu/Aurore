@@ -17,7 +17,7 @@ public class AuroreParticipantSummary {
 	@Column(name = "aurore_participant_id", nullable = false, unique = true)
 	BigInteger auroreParticipantId;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "match_id")
 	AuroreMatchSummary match;
 	

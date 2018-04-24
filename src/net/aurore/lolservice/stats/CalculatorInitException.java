@@ -1,4 +1,4 @@
-package net.aurore.lolservice;
+package net.aurore.lolservice.stats;
 
 import net.aurore.core.AuroreException;
 

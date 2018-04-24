@@ -7,6 +7,7 @@ import net.aurore.command.Command;
 import net.aurore.command.CommandCat;
 import net.aurore.command.CommandContext;
 import net.aurore.command.CommandManagerImpl;
+import net.aurore.entities.AuroreStats;
 import net.aurore.lolservice.entities.Rank;
 import net.aurore.lolservice.entities.Summoner;
 import net.aurore.util.Encoder;
@@ -30,12 +31,21 @@ public class CommandGetSummoner extends AbstractCommandImpl{
 			return;
 		}
 		Rank sRank = getCommandManager().getDM().retrieveRankBySummonerId(s.getId());
+		AuroreStats stats = getCommandManager().getDM().retrieveAuroreStatsBySummonerId(s.getId()); 
+		System.out.println("NANI1 ?");
 		
 		TitleTextList l = new TitleTextList();
 		l.addNode("Summoner Name", s.getName());
 		l.addNode("Summoner Level", "" + s.getSummonerLevel());
 		if(sRank != null)
 			l.addNode("Summoner Rank", "" + sRank.getTier());
+		if(stats != null){
+			l.addNode("Average KDA", "" + stats.getKda());
+			l.addNode("Average Kills", "" + stats.getAverageKill());
+			l.addNode("Average Deaths", "" + stats.getAverageDeath());
+			l.addNode("Average Assists", "" + stats.getAverageAssits());
+		}
+		System.out.println("NANI ?");
 		this.sendEmbed(context.getChannel(), "Profile", l, "http://avatar.leagueoflegends.com/euw/" + Encoder.encode(s.getName()) + ".png");
 		
 	}

@@ -9,6 +9,8 @@ import net.aurore.lolservice.entities.Summoner;
 
 @SuppressWarnings("unchecked")
 public class SummonerJPAImpl implements SummonerJPA {
+	
+	
 
 	private static final String HQL_PARAM_ID = "id";
 	private static final String HQL_PARAM_ACCOUNT_ID = "aId";

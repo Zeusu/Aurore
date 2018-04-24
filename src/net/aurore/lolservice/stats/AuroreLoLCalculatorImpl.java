@@ -5,7 +5,6 @@ import java.util.List;
 
 import net.aurore.entities.AuroreMatchSummary;
 import net.aurore.entities.AuroreParticipantSummary;
-import net.aurore.lolservice.CalculatorInitException;
 
 public class AuroreLoLCalculatorImpl implements AuroreLoLCalculator{
 
@@ -19,7 +18,7 @@ public class AuroreLoLCalculatorImpl implements AuroreLoLCalculator{
 	private boolean focusSummoner = false;
 	private long summonerId = 0;
 	
-	AuroreLoLCalculatorImpl(List<AuroreMatchSummary> l) throws CalculatorInitException{
+	public AuroreLoLCalculatorImpl(List<AuroreMatchSummary> l) throws CalculatorInitException{
 		if(l == null) throw new CalculatorInitException("Can not init a calculator with null list");
 		matches = l;
 	
@@ -89,17 +88,17 @@ public class AuroreLoLCalculatorImpl implements AuroreLoLCalculator{
 		return average(l, l.size());
 	}
 
-	@Override
+
 	public void focusSummoner(long summonerId) throws CalculatorInitException {
-		if(focusChamp = true) throw new CalculatorInitException("Can not init a calculator with champion AND summoner");
+		if(focusChamp) throw new CalculatorInitException("Can not init a calculator with champion AND summoner");
 		focusSummoner = true;
 		this.summonerId = summonerId;
 		
 	}
 
-	@Override
+
 	public void focusChampion(long championId) throws CalculatorInitException {
-		if(focusSummoner = true) throw new CalculatorInitException("Can not init a calculator with champion AND summoner");
+		if(focusSummoner) throw new CalculatorInitException("Can not init a calculator with champion AND summoner");
 		focusChamp = true;
 		this.champId = championId;
 	}

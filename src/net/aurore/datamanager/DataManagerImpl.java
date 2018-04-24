@@ -7,6 +7,8 @@ import org.hibernate.Session;
 
 import net.aurore.entities.AuroreMatch;
 import net.aurore.entities.AuroreMatchSummary;
+import net.aurore.entities.AuroreParticipantSummary;
+import net.aurore.entities.AuroreStats;
 import net.aurore.entities.MatchListItem;
 import net.aurore.lolservice.entities.Rank;
 import net.aurore.lolservice.entities.Summoner;
@@ -77,6 +79,21 @@ public class DataManagerImpl implements DataManager {
 	@Override
 	public AuroreMatchSummary retrieveMatchByMatchId(BigInteger matchId) {
 		return new AuroreMatchSummaryJPAImpl(null,session).retrieveByMatchId(matchId);
+	}
+
+	@Override
+	public void saveAuroreStats(AuroreStats s) {
+		new AuroreStatsJPAImpl(s,session).save();
+	}
+
+	@Override
+	public AuroreStats retrieveAuroreStatsBySummonerId(long summonerId) {
+		return new AuroreStatsJPAImpl(null,session).retrieve(summonerId);
+	}
+
+	@Override
+	public List<AuroreParticipantSummary> retrieveParticipantsBySummonerId(long summonerId) {
+		return new AuroreParticipantSummaryJPAImpl(session).retrieveSummariesBySummonerId(summonerId);
 	}
 
 }
