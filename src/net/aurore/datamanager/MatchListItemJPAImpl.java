@@ -18,6 +18,7 @@ public class MatchListItemJPAImpl implements MatchListItemJPA {
 	private static final String SELECT_ITEMS = "FROM MatchListItem";
 	private static final String SELECT_ITEMS_BY_SUMMONER_ID = SELECT_ITEMS + " WHERE " + PARAM_SUMMONER_ID + " = :" + PARAM_SUMMONER_ID;
 	private static final String SELECT_ITEMS_BY_MATCH_ID = SELECT_ITEMS + " WHERE" + PARAM_MATCH_ID + " = :" + PARAM_MATCH_ID;
+	private static final String SELECT_FULL = SELECT_ITEMS +" WHERE " + PARAM_SUMMONER_ID + " = :" + PARAM_SUMMONER_ID + " AND " + PARAM_MATCH_ID + " = :" + PARAM_MATCH_ID;
 
 	private Session sess;
 	private MatchListItem item;
@@ -57,6 +58,15 @@ public class MatchListItemJPAImpl implements MatchListItemJPA {
 		Query query = sess.createQuery(SELECT_ITEMS_BY_MATCH_ID);
 		query.setParameter(PARAM_MATCH_ID, matchId);
 		return query.list();
+	}
+
+
+	@Override
+	public boolean exists(long summonerId, BigInteger matchId) {
+		Query query = sess.createQuery(SELECT_FULL);
+		query.setParameter(PARAM_SUMMONER_ID, summonerId);
+		query.setParameter(PARAM_MATCH_ID, matchId);
+		return (query.uniqueResult() != null);
 	}
 
 }

@@ -9,6 +9,7 @@ public class AuroreStatsJPAImpl implements AuroreStatsJPA {
 
 	private static final String PARAM_SUMMONER_ID = "summoner_id";
 	private static final String STATS_BY_SUMMONER_ID = "FROM AuroreStats WHERE " + PARAM_SUMMONER_ID + " = :" + PARAM_SUMMONER_ID;
+	private static final String GLOBAL_STATS = "FROM AuroreStats WHERE isGlobalStat = true AND " + PARAM_SUMMONER_ID + " IS NULL AND champion_focused IS NULL";
 	
 	
 	
@@ -55,6 +56,17 @@ public class AuroreStatsJPAImpl implements AuroreStatsJPA {
 		Object o  = query.uniqueResult();
 		if(o instanceof AuroreStats)
 			return (AuroreStats) o;
+		return null;
+	}
+
+
+
+
+	@Override
+	public AuroreStats retrieveGlobalStats() {
+		Query query = sess.createQuery(GLOBAL_STATS);
+		Object o =  query.uniqueResult();
+		if(o instanceof AuroreStats) return (AuroreStats) o;
 		return null;
 	}
 

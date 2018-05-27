@@ -43,7 +43,17 @@ public class SummonerJPAImpl implements SummonerJPA {
 	@Override
 	public void save() {
 		sess.beginTransaction();
-		sess.saveOrUpdate(sum);
+		Summoner s = retrieveById(sum.getId());
+		if(s != null){
+			s.setAccountId(sum.getAccountId());
+			s.setName(sum.getName());;
+			s.setProfileIconId(sum.getProfileIconId());
+			s.setRevisionDate(sum.getRevisionDate());
+			s.setSummonerLevel(sum.getSummonerLevel());
+			sess.update(s);
+		}else{
+			sess.save(sum);
+		}
 		sess.getTransaction().commit();
 		sess.clear();
 	}

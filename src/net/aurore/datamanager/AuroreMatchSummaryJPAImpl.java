@@ -5,12 +5,15 @@ import java.util.List;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.exception.SQLGrammarException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import net.aurore.entities.AuroreMatchSummary;
 
 @SuppressWarnings("unchecked")
 public class AuroreMatchSummaryJPAImpl implements AuroreMatchSummaryJPA {
+	
+	private static Logger m_logger = LoggerFactory.getLogger(AuroreMatchSummaryJPAImpl.class);
 
 	private static final String HQL_PARAM_MATCH_ID = "matchId";
 	
@@ -32,14 +35,8 @@ public class AuroreMatchSummaryJPAImpl implements AuroreMatchSummaryJPA {
 			sess.save(match);
 			sess.getTransaction().commit();
 			sess.clear();
-		}catch(SQLGrammarException e){
-			System.out.println(e.getSQL());
-			System.out.println(e.getErrorCode());
-			e.printStackTrace();
-		}
-		catch(Exception e){
-			System.out.println(e);
-			e.printStackTrace();
+		}catch(Exception e){
+			m_logger.error("Failed to store match summary",e);
 		}
 	}
 
@@ -54,7 +51,9 @@ public class AuroreMatchSummaryJPAImpl implements AuroreMatchSummaryJPA {
 	public AuroreMatchSummary retrieveByMatchId(BigInteger matchId) {
 		Query query = sess.createQuery(SELECT_MATCH_BY_MATCH_ID);
 		query.setParameter(HQL_PARAM_MATCH_ID, matchId);
-		return (AuroreMatchSummary) query.uniqueResult();
+		Object o = query.uniqueResult();
+		if(o instanceof AuroreMatchSummary) return (AuroreMatchSummary) o;
+		return null;
 	}
 
 }

@@ -1,6 +1,5 @@
 package net.aurore.event;
 
-import net.aurore.core.Config;
 import net.aurore.core.node.AuroreNode;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
@@ -16,15 +15,15 @@ public class AuroreListener extends ListenerAdapter {
 		this.setNode(node);
 	}
 	
+	@Override
 	public void onMessageReceived(MessageReceivedEvent event) {
 		String rawMsg = event.getMessage().getContentRaw();
 		if(rawMsg != null && !rawMsg.equals("")){
-			if(rawMsg.charAt(0) == Config.PREFIX) {
-				onCommand(event, rawMsg.split(" ")[0].substring(1), event.isFromType(ChannelType.PRIVATE));
-			}
+			onCommand(event, rawMsg.split(" ")[0], event.isFromType(ChannelType.PRIVATE));
 		}
+		node.emit(Events.ON_MESSAGE, event);
 	}
-
+	
 	public AuroreNode getNode() {
 		return node;
 	}
@@ -44,7 +43,9 @@ public class AuroreListener extends ListenerAdapter {
 				true);
 		String identifier = commandIdentifier.split(" ")[0];
 		if(!isPM){
-			node.runCommand(commandContext.getGuild().getId(),commandContext,identifier);
+			node.runCommand(commandContext,identifier);
 		}
 	}
+	
+	
 }

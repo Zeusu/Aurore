@@ -9,7 +9,9 @@ import net.aurore.command.CommandContext;
 import net.aurore.command.CommandManagerImpl;
 import net.aurore.command.LoLCommandMultiRequest;
 import net.aurore.entities.AuroreMatchSummary;
+import net.aurore.entities.AuroreParticipantSummary;
 import net.aurore.entities.Context;
+import net.aurore.entities.MatchListItem;
 import net.aurore.lolservice.entities.MatchList;
 import net.aurore.lolservice.entities.MatchSummary;
 import net.aurore.lolservice.entities.Matches;
@@ -76,11 +78,22 @@ public class CommandUpdateSummoner extends LoLCommandMultiRequest{
 					getLoLService().matchesByMatchId(matchId,new Context<CommandContext>(context), key());
 				}
 			}
-			if(m.getEndIndex() != m.getTotalGames() && m.getStartIndex() != m.getEndIndex())
+			if(m.getEndIndex() != m.getStartIndex() && (m.getEndIndex() % 100 == 0))
 				getLoLService().matchListByAccountIdWithStartIndex(((Summoner) getEntity(userId,0)).getAccountId(), m.getEndIndex() ,new Context<CommandContext>(context), key());
 		}
-		else if(e instanceof Matches && rootIndex == 2){
-			getDM().saveAuroreMatchSummary(new AuroreMatchSummary((Matches) e));
+		else if(e instanceof Matches){
+			AuroreMatchSummary m = new AuroreMatchSummary((Matches) e);
+			try{
+				if(getDM().retrieveMatchByMatchId(m.getMatchId()) == null)
+					getDM().saveAuroreMatchSummary(m);
+			}catch(Exception ee){
+				System.out.println(ee);
+			}
+			for(AuroreParticipantSummary p : m.getParticipants()){
+				try{
+					getDM().saveMatchListItem(new MatchListItem(p.getSummonerId(),m.getMatchId()));
+				}catch(Exception ee){}
+			}
 		}
 	}
 }

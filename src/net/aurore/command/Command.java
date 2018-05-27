@@ -7,4 +7,5 @@ import java.lang.annotation.Retention;
 @Retention(RUNTIME)
 public @interface Command {
 	String value();
+	boolean local() default true;
 }

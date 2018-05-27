@@ -2,7 +2,6 @@ package net.aurore.command;
 
 import java.util.List;
 
-import net.aurore.datamanager.DataManager;
 import net.aurore.entities.Context;
 import net.aurore.lolservice.AuroreLoLListener;
 import net.aurore.lolservice.AuroreLoLService;
@@ -41,9 +40,5 @@ public abstract class LoLCommand extends AbstractCommandImpl implements AuroreLo
 	protected AuroreLoLService getLoLService(){
 		return getCommandManager().getLoLService();
 	}
-	
-	protected DataManager getDM(){
-		return getCommandManager().getDM();
-	}
-	
+
 }

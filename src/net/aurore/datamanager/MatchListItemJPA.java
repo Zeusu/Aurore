@@ -12,5 +12,7 @@ public interface MatchListItemJPA {
 	 public List<MatchListItem> retrieveBySummonerId(long summonerId);
 	
 	 public List<MatchListItem> retrieveByMatchId(BigInteger matchId);
+	 
+	 public boolean exists(long summonerId,BigInteger matchId);
 	
 }

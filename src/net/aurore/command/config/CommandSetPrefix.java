@@ -1,4 +1,4 @@
-package net.aurore.command.moderation;
+package net.aurore.command.config;
 
 import java.util.List;
 
@@ -7,13 +7,14 @@ import net.aurore.command.CommandCat;
 import net.aurore.command.CommandContext;
 import net.aurore.command.CommandManagerImpl;
 import net.aurore.command.RestrictCommand;
+import net.aurore.entities.GuildConfig;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Member;
 
-@Command("doAs")
-public class CommandDoAs extends RestrictCommand {
+@Command("setPrefix")
+public class CommandSetPrefix extends RestrictCommand {
 
-	public CommandDoAs(CommandManagerImpl manager) {
+	public CommandSetPrefix(CommandManagerImpl manager) {
 		super(manager);
 	}
 
@@ -25,13 +26,15 @@ public class CommandDoAs extends RestrictCommand {
 
 	@Override
 	public String getCatHelp() {
-		return CommandCat.ADMINISTRATION.toString();
+		return CommandCat.CONFIG.toString();
 	}
 
 	@Override
 	protected void execute(CommandContext context, String[] args, List<Member> mentioned) {
-		context.getMsg().delete().queue();
-		send(context.getChannel(), parseArguments(args,1));
+		GuildConfig config = getDM().retrieveGuildConfigById(context.getGuild().getIdLong());
+		config.setPrefix(args[1]);
+		getDM().saveGuildConfig(config);
+		
 	}
 
 	@Override
@@ -41,7 +44,7 @@ public class CommandDoAs extends RestrictCommand {
 
 	@Override
 	protected boolean isOk(CommandContext context, String[] args, List<Member> mentioned) {
-		return args.length > 1;
+		return args.length == 2 && args[1].length() < 4;
 	}
 
 }

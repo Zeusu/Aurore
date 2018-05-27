@@ -33,7 +33,7 @@ public class CommandRoll extends PublicCommand{
 	@Override
 	public void execute(CommandContext context, String[] args, List<Member> mentioned) {
 		int value = Integer.parseInt(args[1]);
-		this.reply(context.getMsg(), new StringBuilder().appendCodePoint(0x1F3B2).toString() + " vous avez fait: " + RANDOM.nextInt(value + 1) + " !");
+		this.reply(context.getMsg(), new StringBuilder().appendCodePoint(0x1F3B2).toString() + " vous avez fait: " + (RANDOM.nextInt(value) + 1) + " !");
 	}
 
 	@Override

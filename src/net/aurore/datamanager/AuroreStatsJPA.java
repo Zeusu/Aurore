@@ -8,5 +8,6 @@ public interface AuroreStatsJPA {
 	
 	public AuroreStats retrieve(long summonerId);
 	
+	public AuroreStats retrieveGlobalStats();
 	
 }

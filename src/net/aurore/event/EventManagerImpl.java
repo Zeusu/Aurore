@@ -10,8 +10,8 @@ import java.util.Set;
 import org.reflections.Reflections;
 
 import net.dv8tion.jda.core.events.Event;
-
 import net.aurore.core.node.AuroreNode;
+import net.aurore.datamanager.DataManager;
 
 public class EventManagerImpl implements EventManager {
 
@@ -56,16 +56,31 @@ public class EventManagerImpl implements EventManager {
 	
 	@Override
 	public void process(String identifier, Event e) {
-		if(processors.get(identifier) != null){
-			for(EventProcessorI proc : processors.get(identifier)){
-				proc.process(e);
+		if (processors.get(identifier) != null) {
+			for (EventProcessorI proc : processors.get(identifier)) {
+				try {
+					node.useThread(new Runnable() {
+						@Override
+						public void run() {
+							proc.process(e);
+						}
+					});
+				} catch (Exception exp) {
+					System.err.println("Event internal error");
+					exp.printStackTrace();
+				}
+
 			}
 		}
-		
+
 	}
 	
 	protected AuroreNode getNode(){
 		return node;
+	}
+	
+	public DataManager getDM(){
+		return node.getDataManager();
 	}
 
 }

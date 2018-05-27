@@ -14,8 +14,14 @@ public class AuroreStats {
 	private long id;
 
 	@OneToOne(cascade = CascadeType.REFRESH, fetch = FetchType.LAZY)
-	@JoinColumn (name = "summoner_id", unique = true)
+	@JoinColumn (name = "summoner_id")
 	private Summoner s;
+	
+	@Column(name = "is_global_stat")
+	private boolean isGlobalStat;
+	
+	@Column(name = "champion_focused")
+	private int championFocused;
 	
 	@Column(name = "kda")
 	private double kda;
@@ -75,6 +81,22 @@ public class AuroreStats {
 
 	public void setAverageAssits(double averageAssits) {
 		this.averageAssits = averageAssits;
+	}
+
+	public boolean isGlobalStat() {
+		return isGlobalStat;
+	}
+
+	public void setGlobalStat(boolean isGlobalStat) {
+		this.isGlobalStat = isGlobalStat;
+	}
+
+	public int getChampionFocused() {
+		return championFocused;
+	}
+
+	public void setChampionFocused(int championFocused) {
+		this.championFocused = championFocused;
 	}
 	
 	

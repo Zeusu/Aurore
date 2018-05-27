@@ -2,6 +2,7 @@ package net.aurore.command;
 
 import java.util.List;
 
+import net.aurore.datamanager.DataManager;
 import net.aurore.util.TitleTextList;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
@@ -66,6 +67,10 @@ public abstract class AbstractCommandImpl implements CommandI{
 	
 	public String generateCommandKey(CommandContext context){
 		return "" + COMMAND_ID + context.getGuild().getId() + context.getAuthor().getId();
+	}
+	
+	protected DataManager getDM(){
+		return getCommandManager().getDM();
 	}
 	
 }

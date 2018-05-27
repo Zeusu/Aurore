@@ -9,11 +9,14 @@ import java.util.Set;
 import org.reflections.Reflections;
 
 import net.aurore.core.AuroreConsoleMessages;
+import net.aurore.core.Config;
 import net.aurore.core.node.AuroreNode;
 import net.aurore.datamanager.DataManager;
+import net.aurore.entities.GuildConfig;
 import net.aurore.lolservice.AuroreLoLListener;
 import net.aurore.lolservice.AuroreLoLResponseHandler;
 import net.aurore.lolservice.AuroreLoLService;
+import net.aurore.util.ConfigManager;
 import net.aurore.util.TitleTextList;
 
 public class CommandManagerImpl implements CommandManager {
@@ -52,26 +55,50 @@ public class CommandManagerImpl implements CommandManager {
 	}
 	
 	@Override
-	public void runCommand(CommandContext context, String identifier) {
-		if(hasCommand(identifier)){
-			try{
-				node.useThread(new Runnable(){
-					@Override
-					public void run() {
-						commands.get(identifier).onInvoke(context, context.getMsg().getContentRaw().split(" "), context.getMsg().getMentionedMembers());
-						AuroreConsoleMessages.add("[Aurore] " + context.getAuthor().getName() + " try to execute command: " + identifier + " on " + context.getGuild().getName());
-					}
-				});
-			}catch(Exception e){
-				System.err.println("Command internal error");
-				e.printStackTrace();
+	public void runCommand(CommandContext context, String identifier, GuildConfig c) {
+		char defaultPrefix = ((Config)ConfigManager.getConfig(Config.KEY)).getPrefix();
+		int prefixLength = 1;
+		boolean globalPrefix = false;
+		if(identifier.matches(""+c.getPrefix() + ".*")){
+			prefixLength = c.getPrefix().length();
+		}else if(identifier.matches(defaultPrefix + ".*")){
+			globalPrefix = true;
+		}else{
+			return;
+		}
+		final String commandName =  identifier.substring(prefixLength);
+		if (hasCommand(commandName)) {
+			if (!globalPrefix || globalPrefix && isGlobalCommand(commandName)) {
+				try {
+					node.useThread(new Runnable() {
+						@Override
+						public void run() {
+							try{
+								commands.get(commandName).onInvoke(context, context.getMsg().getContentRaw().split(" "),
+										context.getMsg().getMentionedMembers());
+							}catch(Exception e){
+								System.err.println("Command internal error");
+								e.printStackTrace();
+							}
+							AuroreConsoleMessages
+									.add("[Aurore] " + context.getAuthor().getName() + " try to execute command: "
+											+ commandName + " on " + context.getGuild().getName());
+						}
+					});
+				} catch (Exception e) {
+					System.err.println("Command internal error");
+					e.printStackTrace();
+				}
 			}
 		}
-
 	}
 	
 	private boolean hasCommand(String identifier){
 		return (commands.get(identifier) != null);
+	}
+	
+	private boolean isGlobalCommand(String identifier){
+		return !commands.get(identifier).getClass().getAnnotation(Command.class).local();
 	}
 	
 	protected AuroreNode getNode(){

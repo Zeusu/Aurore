@@ -1,5 +1,6 @@
 package net.aurore.core;
 
+
 import javax.security.auth.login.LoginException;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -15,23 +16,29 @@ import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 import net.aurore.lolservice.AuroreLoLService;
 import net.aurore.lolservice.AuroreLoLServiceImpl;
+import net.aurore.util.ConfigManager;
 import net.aurore.util.ThreadPoolManager;
 
 @WebListener
 public class AuroreCore implements ServletContextListener{
-		
-	private static final Game GAME = Game.playing(Config.PREFIX + "help for commands");
 	
-	private static final String TOKEN = "";
+	public static final String INVITE_FULL_RIGHT = "https://discordapp.com/oauth2/authorize?client_id=413094559048925184&scope=bot&permissions=2146958591";
+	
+	public static final String INVITE_PREVISION_RIGHT = "https://discordapp.com/oauth2/authorize?client_id=413094559048925184&scope=bot&permissions=2080894150";
+	
+	private static final String GAME = "help for commands";
 	
 	private AuroreNode node;
 
 	public AuroreCore(){
-			
+		ConfigManager.init();
+		
+		Config c = (Config) ConfigManager.getConfig(Config.KEY);
+		
 		DataManager manager = new DataManagerBuilder().build();
-		AuroreNodeBuilder builder = (AuroreNodeBuilder) new AuroreNodeBuilder(AccountType.BOT).setToken(TOKEN);
+		AuroreNodeBuilder builder = (AuroreNodeBuilder) new AuroreNodeBuilder(AccountType.BOT).setToken(c.getToken());
 		builder.setStatus(OnlineStatus.ONLINE);
-		builder.setGame(GAME);		
+		builder.setGame(Game.playing(c.getPrefix() + GAME));		
 		try {
 			node = (AuroreNode) builder.buildBlocking();
 		} catch (LoginException | InterruptedException e) {
@@ -40,6 +47,7 @@ public class AuroreCore implements ServletContextListener{
 		node.addEventListener(new AuroreListener(node));
 		node.setLoLService(((AuroreLoLService) new AuroreLoLServiceImpl()));
 		node.init(manager);
+		
 		
 	}
 

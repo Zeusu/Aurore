@@ -7,16 +7,23 @@ import net.aurore.command.Command;
 import net.aurore.command.CommandCat;
 import net.aurore.command.CommandContext;
 import net.aurore.command.CommandManagerImpl;
+import net.aurore.util.ConfigManager;
 import net.aurore.util.TitleTextList;
 import net.dv8tion.jda.core.entities.Member;
 import net.aurore.core.Config;
 
-@Command("help")
+@Command(value = "help",local = false)
 public class CommandHelp extends AbstractCommandImpl {
+	
+
 
 	private static final String TITLE = "" + new StringBuilder().appendCodePoint(0x1F6C8).toString() +  " | Help: Liste des commandes";
 	
-	private static final String DESCRIPTION = "Pour plus de détails sur une commande: `"+ Config.PREFIX +"help [COMMANDE]`.";
+	private static final String DESCRIPTION;
+	
+	static{
+		DESCRIPTION = "Pour plus de détails sur une commande: `" + ((Config) ConfigManager.getConfig(Config.KEY)).getPrefix() + "help [COMMANDE]`.";
+	}
 	
 	public CommandHelp(CommandManagerImpl manager) {
 		super(manager);

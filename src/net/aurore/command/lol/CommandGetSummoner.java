@@ -32,7 +32,6 @@ public class CommandGetSummoner extends AbstractCommandImpl{
 		}
 		Rank sRank = getCommandManager().getDM().retrieveRankBySummonerId(s.getId());
 		AuroreStats stats = getCommandManager().getDM().retrieveAuroreStatsBySummonerId(s.getId()); 
-		System.out.println("NANI1 ?");
 		
 		TitleTextList l = new TitleTextList();
 		l.addNode("Summoner Name", s.getName());
@@ -45,7 +44,6 @@ public class CommandGetSummoner extends AbstractCommandImpl{
 			l.addNode("Average Deaths", "" + stats.getAverageDeath());
 			l.addNode("Average Assists", "" + stats.getAverageAssits());
 		}
-		System.out.println("NANI ?");
 		this.sendEmbed(context.getChannel(), "Profile", l, "http://avatar.leagueoflegends.com/euw/" + Encoder.encode(s.getName()) + ".png");
 		
 	}
